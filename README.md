@@ -1,36 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CMTC AI Knowledge Management System
 
-## Getting Started
+<div align="center">
+  <h3>🧠 ระบบจัดการความรู้อัจฉริยะสำหรับองค์กร</h3>
+  <p>ขับเคลื่อนด้วย AI เพื่อการค้นหาและแชร์ความรู้ที่มีประสิทธิภาพสูงสุด</p>
 
-First, run the development server:
+  ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+  ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+  ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss)
+  ![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?logo=supabase)
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📋 คำอธิบายโครงการ
+
+CMTC AI Knowledge Management System (CMTC AI KMS) คือแพลตฟอร์มจัดการความรู้องค์กรที่ใช้ AI ในการค้นหา จัดหมวดหมู่ และแนะนำเนื้อหาความรู้ให้กับผู้ใช้อย่างชาญฉลาด สร้างด้วย Next.js 15, React 19, TypeScript และ Supabase
+
+## 🚀 Technology Stack
+
+| Technology | Version | Purpose |
+|---|---|---|
+| Next.js | 15 (App Router) | Full-stack Framework |
+| React | 19 | UI Library |
+| TypeScript | 5 | Type Safety |
+| Tailwind CSS | 4 | Styling |
+| shadcn/ui | Latest | UI Components |
+| Supabase | Latest | Backend & Auth |
+| PostgreSQL | 15+ | Database |
+| n8n | Latest | Workflow Automation |
+| ESLint | Latest | Code Quality |
+| Prettier | Latest | Code Formatting |
+
+## 📁 โครงสร้างโฟลเดอร์
+
+```
+cmtc-ai-system/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── layout.tsx          # Root layout
+│   │   ├── page.tsx            # Home page
+│   │   └── globals.css         # Global styles
+│   ├── components/             # React components
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── layout/             # Layout components (navbar, sidebar)
+│   │   └── shared/             # Shared/reusable components
+│   ├── features/               # Feature-based modules
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/                    # Library configurations
+│   │   └── supabase/           # Supabase clients
+│   ├── services/               # API service layer
+│   ├── types/                  # TypeScript type definitions
+│   ├── utils/                  # Utility functions
+│   ├── middleware/             # Middleware helpers
+│   └── styles/                 # Additional styles
+├── database/                   # Database scripts & migrations
+├── docs/                       # Project documentation
+├── n8n/                        # n8n workflow definitions
+├── scripts/                    # Utility scripts
+├── supabase/                   # Supabase config & migrations
+├── public/                     # Static assets
+├── .env.local.example          # Environment variables template
+├── .gitignore                  # Git ignore rules
+├── .prettierrc                 # Prettier configuration
+├── components.json             # shadcn/ui configuration
+├── next.config.ts              # Next.js configuration
+├── tailwind.config.ts          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+└── README.md                   # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ การติดตั้ง (Installation)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd cmtc-ai-system
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. ติดตั้ง Dependencies
+```bash
+npm install
+```
 
-## Learn More
+### 3. ตั้งค่า Environment Variables
+```bash
+cp .env.local.example .env.local
+```
+แก้ไขค่าใน `.env.local` ให้ถูกต้อง:
+- `NEXT_PUBLIC_SUPABASE_URL` — URL ของ Supabase project
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Anonymous key จาก Supabase dashboard
+- `SUPABASE_SERVICE_ROLE_KEY` — Service role key (เก็บเป็นความลับ)
 
-To learn more about Next.js, take a look at the following resources:
+### 4. ตั้งค่า Supabase
+1. สร้าง project บน [supabase.com](https://supabase.com)
+2. รัน migration scripts ใน `supabase/` folder
+3. ตั้งค่า Row Level Security (RLS) policies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ การพัฒนา (Development)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# รัน development server
+npm run dev
 
-## Deploy on Vercel
+# รัน type checking
+npm run type-check
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# รัน ESLint
+npm run lint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# รัน Prettier
+npm run format
+```
+
+เปิดเบราว์เซอร์ที่ [http://localhost:3000](http://localhost:3000)
+
+## 📦 การ Build (Production)
+
+```bash
+# Build สำหรับ production
+npm run build
+
+# รัน production server
+npm run start
+```
+
+## 🗺️ Roadmap — Milestones
+
+### ✅ Milestone 1 — Project Foundation (ปัจจุบัน)
+- [x] ติดตั้ง Next.js 15 + React 19 + TypeScript
+- [x] ตั้งค่า Tailwind CSS + shadcn/ui
+- [x] เชื่อมต่อ Supabase (client + server + middleware)
+- [x] สร้างโครงสร้างโฟลเดอร์ enterprise
+- [x] ตั้งค่า ESLint + Prettier
+- [x] สร้าง Landing Page
+- [x] Initialize Git
+
+### 🔲 Milestone 2 — Authentication & User Management
+- [ ] ระบบ Login/Register ด้วย Supabase Auth
+- [ ] User Profile Management
+- [ ] Role-Based Access Control (RBAC)
+- [ ] Protected Routes & Middleware
+
+### 🔲 Milestone 3 — Knowledge Base Core
+- [ ] CRUD Knowledge Articles
+- [ ] Rich Text Editor (Tiptap/Quill)
+- [ ] Category & Tag Management
+- [ ] File Upload & Media Management
+
+### 🔲 Milestone 4 — AI Integration
+- [ ] AI-powered Semantic Search
+- [ ] Auto-categorization with LLM
+- [ ] AI Chat Assistant
+- [ ] Content Recommendations
+
+### 🔲 Milestone 5 — n8n Workflow Automation
+- [ ] Automated content processing
+- [ ] Notification workflows
+- [ ] Data sync pipelines
+- [ ] AI processing queues
+
+### 🔲 Milestone 6 — Analytics & Reporting
+- [ ] Usage Analytics Dashboard
+- [ ] Knowledge Gap Analysis
+- [ ] User Engagement Metrics
+- [ ] Export Reports
+
+## 📄 License
+
+Copyright © 2026 CMTC. All rights reserved.
