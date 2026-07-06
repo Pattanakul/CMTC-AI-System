@@ -31,7 +31,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
     }, 500);
   }, [params.id, reset]);
 
-  const onSubmit = async (data: UpdateArticle) => {
+  const onSubmit = async () => {
     // Call update service here
     router.push("/knowledge");
   };

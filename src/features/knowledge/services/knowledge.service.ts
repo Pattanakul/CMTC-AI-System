@@ -49,7 +49,7 @@ export const knowledgeService = {
 
   async updateArticle(id: string, articleData: UpdateArticle) {
     const supabase = createClient();
-    const updatePayload: any = {};
+    const updatePayload: Record<string, unknown> = {};
     if (articleData.title) updatePayload.title = articleData.title;
     if (articleData.category) updatePayload.category = articleData.category;
     if (articleData.departmentId) updatePayload.department_id = articleData.departmentId;

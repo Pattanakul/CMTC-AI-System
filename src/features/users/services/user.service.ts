@@ -32,7 +32,7 @@ export const userService = {
 
   async updateUser(id: string, userData: UpdateUser) {
     const supabase = createClient();
-    const updatePayload: any = {};
+    const updatePayload: Record<string, unknown> = {};
     if (userData.fullName) updatePayload.full_name = userData.fullName;
     if (userData.phone !== undefined) updatePayload.phone = userData.phone;
     if (userData.department) updatePayload.department = userData.department;

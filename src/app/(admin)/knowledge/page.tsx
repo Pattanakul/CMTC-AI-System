@@ -1,5 +1,6 @@
 import { knowledgeService } from "@/features/knowledge/services/knowledge.service";
 import Link from "next/link";
+import { KnowledgeBase } from "@/types";
 import { Button } from "@/components/ui/button";
 
 export default async function KnowledgePage() {
@@ -29,7 +30,7 @@ export default async function KnowledgePage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {articles?.map((article: any) => (
+            {articles?.map((article: KnowledgeBase) => (
               <tr key={article.id}>
                 <td className="px-6 py-4 whitespace-nowrap">{article.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{article.category}</td>

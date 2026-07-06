@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateArticleSchema, CreateArticle } from "@/features/knowledge/schemas";
@@ -11,8 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function CreateArticlePage() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-
   const { register, handleSubmit, formState: { errors } } = useForm<CreateArticle>({
     resolver: zodResolver(CreateArticleSchema),
     defaultValues: {
@@ -20,7 +17,7 @@ export default function CreateArticlePage() {
     }
   });
 
-  const onSubmit = async (data: CreateArticle) => {
+  const onSubmit = async () => {
     // We would normally call the service here (e.g. via a Server Action or API route)
     // For this milestone, we'll assume success for now or wire up a Server Action
     router.push("/knowledge");

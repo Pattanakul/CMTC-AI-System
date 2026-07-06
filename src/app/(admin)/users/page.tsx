@@ -1,5 +1,6 @@
 import { userService } from "@/features/users/services/user.service";
 import Link from "next/link";
+import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 
 export default async function UsersPage() {
@@ -25,7 +26,7 @@ export default async function UsersPage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users?.map((user: any) => (
+            {users?.map((user: User) => (
               <tr key={user.id}>
                 <td className="px-6 py-4 whitespace-nowrap">{user.full_name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>

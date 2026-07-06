@@ -56,7 +56,7 @@ export function useDepartments() {
       }
       setDepartments(prev => prev.map(d => d.code === code ? updatedDept : d))
       toast.success(`เปลี่ยนสถานะเป็น ${!currentStatus ? 'เปิดใช้งาน' : 'ปิดใช้งาน'} สำเร็จ`)
-    } catch (err: unknown) {
+    } catch {
       toast.error('เกิดข้อผิดพลาดในการเปลี่ยนสถานะ')
     }
   }

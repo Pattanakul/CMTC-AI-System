@@ -23,7 +23,7 @@ export default function DepartmentDetailPage() {
       try {
         const data = await departmentService.getDepartment(code as string)
         setDepartment(data)
-      } catch (err: unknown) {
+      } catch {
         toast.error('ไม่พบข้อมูลแผนก')
         router.push('/departments')
       } finally {
