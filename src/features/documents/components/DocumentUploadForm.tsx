@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
@@ -39,7 +39,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadStatuses, setUploadStatuses] = useState<
-    Record<string, { progress: number; status: "pending" | "uploading" | "success" | "error"; error?: string }>
+    Record<string, { progress: number; status: "pending" | "uploading" | "success" | "error"; error?: string }> 
   >({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -59,7 +59,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
 
   const handleFilesSelected = (files: File[]) => {
     setSelectedFiles((prev) => [...prev, ...files]);
-    // Auto-fill title from first file name if empty
     if (files.length > 0 && !form.getValues("displayTitle")) {
       const name = files[0].name.replace(/\.[^.]+$/, "").replace(/[_-]/g, " ");
       form.setValue("displayTitle", name);
@@ -67,7 +66,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
   };
 
   const handleSingleUpload = async (file: File, values: UploadFormValues) => {
-    // Mark as uploading
     setUploadStatuses((prev) => ({
       ...prev,
       [file.name]: { progress: 20, status: "uploading" },
@@ -83,7 +81,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
     formData.append("language", values.language);
     if (values.departmentId) formData.append("departmentId", values.departmentId);
 
-    // Simulate progress
     setUploadStatuses((prev) => ({
       ...prev,
       [file.name]: { progress: 50, status: "uploading" },
@@ -101,7 +98,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
     return !result.error;
   };
 
-  const onSubmit = async (values: UploadFormValues) => {
+  const onSubmit: SubmitHandler<UploadFormValues> = async (values) => {
     if (selectedFiles.length === 0) {
       toast.error("กรุณาเลือกไฟล์", { description: "ต้องมีไฟล์อย่างน้อย 1 ไฟล์" });
       return;
@@ -128,7 +125,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} ref={formRef} className="space-y-6">
-        {/* File Upload Section */}
         <Card className="border-gray-100 shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-gray-800">
@@ -145,7 +141,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
           </CardContent>
         </Card>
 
-        {/* Metadata Section */}
         <Card className="border-gray-100 shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-semibold text-gray-800">
@@ -153,7 +148,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Display Title */}
             <FormField
               control={form.control}
               name="displayTitle"
@@ -174,7 +168,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
               )}
             />
 
-            {/* Category & Department Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -240,7 +233,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
               )}
             </div>
 
-            {/* Description */}
             <FormField
               control={form.control}
               name="description"
@@ -260,7 +252,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
               )}
             />
 
-            {/* Keywords & Tags Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -305,7 +296,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
               />
             </div>
 
-            {/* Language */}
             <FormField
               control={form.control}
               name="language"
@@ -335,7 +325,6 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
         <div className="flex items-center justify-between pt-2">
           <Button
             type="button"

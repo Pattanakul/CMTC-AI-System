@@ -3,8 +3,10 @@ import Link from "next/link";
 import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 
+export const dynamic = "force-dynamic";
+
 export default async function UsersPage() {
-  const users = await userService.getUsers();
+  const users = await userService.getAllUsers();
 
   return (
     <div className="p-8">

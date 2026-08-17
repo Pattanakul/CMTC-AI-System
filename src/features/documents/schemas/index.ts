@@ -16,8 +16,8 @@ export const DocumentSchema = z.object({
   id: z.string().uuid().optional(),
   fileName: z.string().min(1, "File name is required"),
   displayTitle: z.string().min(1, "กรุณากรอกชื่อเอกสาร"),
-  description: z.string().optional(),
-  departmentId: z.string().optional(),
+  description: z.string().optional().or(z.literal("")),
+  departmentId: z.string().optional().or(z.literal("")),
   category: DocumentCategorySchema,
   keywords: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
@@ -39,8 +39,8 @@ export const CreateDocumentSchema = DocumentSchema.omit({
 
 export const UpdateDocumentSchema = z.object({
   displayTitle: z.string().min(1, "กรุณากรอกชื่อเอกสาร").optional(),
-  description: z.string().optional(),
-  departmentId: z.string().optional(),
+  description: z.string().optional().or(z.literal("")),
+  departmentId: z.string().optional().or(z.literal("")),
   category: DocumentCategorySchema.optional(),
   keywords: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
@@ -51,11 +51,11 @@ export const UpdateDocumentSchema = z.object({
 export const UploadFormSchema = z.object({
   displayTitle: z.string().min(1, "กรุณากรอกชื่อเอกสาร"),
   category: DocumentCategorySchema,
-  description: z.string().optional(),
-  keywords: z.string().optional(), // comma-separated string from form
-  tags: z.string().optional(),     // comma-separated string from form
-  language: z.string().default("th"),
-  departmentId: z.string().optional(),
+  description: z.string().optional().or(z.literal("")),
+  keywords: z.string().optional().or(z.literal("")),
+  tags: z.string().optional().or(z.literal("")),
+  language: z.string(),
+  departmentId: z.string().optional().or(z.literal("")),
 });
 
 export type UploadFormValues = z.infer<typeof UploadFormSchema>;

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -7,7 +8,7 @@ import { Upload, FileText } from "lucide-react";
 import { documentService } from "@/features/documents/services/document.service";
 import { DocumentTable } from "@/features/documents/components/DocumentTable";
 import { DocumentSearchFilter } from "@/features/documents/components/DocumentSearchFilter";
-import type { DocumentFilters, DocumentCategory, DocumentStatus } from "@/features/documents/types";
+import type { DocumentFilters, DocumentCategory, DocumentStatus, DocumentRow } from "@/features/documents/types";
 
 export const metadata: Metadata = {
   title: "จัดการเอกสาร",
@@ -25,7 +26,7 @@ interface DocumentsPageProps {
 }
 
 async function DocumentList({ filters }: { filters: DocumentFilters }) {
-  let documents = [];
+  let documents: DocumentRow[] = [];
   try {
     documents = await documentService.getDocuments(filters);
   } catch (err) {

@@ -7,6 +7,7 @@ export interface User {
   avatar_url?: string
   role: 'admin' | 'editor' | 'viewer'
   department?: string
+  status?: string
   created_at: string
   updated_at: string
 }
@@ -18,10 +19,10 @@ export interface KnowledgeBase {
   title: string
   description?: string
   content: string
-  category_id: string
+  category: string
   tags: string[]
   author_id: string
-  status: 'draft' | 'published' | 'archived'
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   view_count: number
   created_at: string
   updated_at: string

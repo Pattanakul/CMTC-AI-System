@@ -1,28 +1,31 @@
 import { z } from "zod";
 
-export const ArticleStatusSchema = z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]);
-export const ArticleCategorySchema = z.enum([
-  "Admissions", 
-  "Tuition Fees", 
-  "Departments", 
-  "Contact Information", 
-  "News", 
-  "General Information"
-]);
-
 export const KnowledgeArticleSchema = z.object({
   id: z.string().uuid().optional(),
   title: z.string().min(1, "Title is required"),
-  category: ArticleCategorySchema,
-  departmentId: z.string().optional(),
-  content: z.string().min(1, "Content is required"),
-  keywords: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
-  status: ArticleStatusSchema.default("DRAFT"),
-  authorId: z.string().uuid(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  question: z.string().optional(),
+  answer: z.string().min(1, "Answer is required"),
+  categoryId: z.string().uuid(),
+  departmentId: z.string().uuid(),
+  source: z.string().optional(),
+  isPublish: z.boolean().default(false),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  deletedAt: z.string().optional().nullable(),
 });
 
-export const CreateArticleSchema = KnowledgeArticleSchema.omit({ id: true, createdAt: true, updatedAt: true });
+export const CreateArticleSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  question: z.string().optional(),
+  answer: z.string().min(1, "Answer is required"),
+  categoryId: z.string().uuid(),
+  departmentId: z.string().uuid(),
+  source: z.string().optional(),
+  isPublish: z.boolean(),
+});
+
 export const UpdateArticleSchema = CreateArticleSchema.partial();
+
+export type CreateArticle = z.infer<typeof CreateArticleSchema>;
+export type UpdateArticle = z.infer<typeof UpdateArticleSchema>;
+export type KnowledgeArticle = z.infer<typeof KnowledgeArticleSchema>;

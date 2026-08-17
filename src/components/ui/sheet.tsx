@@ -11,8 +11,9 @@ function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
-function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
+function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props & { asChild?: boolean }) {
+  const Comp = SheetPrimitive.Trigger as any
+  return <Comp data-slot="sheet-trigger" {...props} />
 }
 
 function SheetClose({ ...props }: SheetPrimitive.Close.Props) {

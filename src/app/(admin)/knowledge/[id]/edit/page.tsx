@@ -2,37 +2,41 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateArticleSchema, UpdateArticle } from "@/features/knowledge/schemas";
+import { UpdateArticleSchema, type UpdateArticle } from "@/features/knowledge/schemas";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function EditArticlePage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<UpdateArticle>({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<UpdateArticle>({
     resolver: zodResolver(UpdateArticleSchema),
   });
 
+  const isPublish = watch("isPublish");
+
   useEffect(() => {
-    // In a real app, fetch data from API or Server Action
-    // For now, just simulating data load
+    // Mock fetch
     setTimeout(() => {
       reset({
         title: "Sample Article",
-        category: "General Information",
-        content: "This is a sample content.",
-        status: "PUBLISHED"
+        question: "Sample Question?",
+        answer: "Sample Answer.",
+        categoryId: "00000000-0000-0000-0000-000000000000",
+        departmentId: "25508dda-220b-490f-85f3-1c72adf515a1",
+        isPublish: true
       });
       setLoading(false);
     }, 500);
   }, [params.id, reset]);
 
-  const onSubmit = async () => {
-    // Call update service here
+  const onSubmit = async (data: UpdateArticle) => {
+    console.log(data);
     router.push("/knowledge");
   };
 
@@ -45,39 +49,41 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
         <div>
           <Label htmlFor="title">Title</Label>
           <Input id="title" {...register("title")} />
-          {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
-        </div>
-        
-        <div>
-          <Label htmlFor="category">Category</Label>
-          <select id="category" {...register("category")} className="w-full p-2 border rounded">
-            <option value="Admissions">Admissions</option>
-            <option value="Tuition Fees">Tuition Fees</option>
-            <option value="Departments">Departments</option>
-            <option value="Contact Information">Contact Information</option>
-            <option value="News">News</option>
-            <option value="General Information">General Information</option>
-          </select>
-          {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+          {errors.title && <p className="text-red-500 text-sm">{errors.title.message as string}</p>}
         </div>
 
         <div>
-          <Label htmlFor="status">Status</Label>
-          <select id="status" {...register("status")} className="w-full p-2 border rounded">
-            <option value="DRAFT">DRAFT</option>
-            <option value="PUBLISHED">PUBLISHED</option>
-            <option value="ARCHIVED">ARCHIVED</option>
-          </select>
+          <Label htmlFor="question">Question</Label>
+          <Input id="question" {...register("question")} />
         </div>
 
         <div>
-          <Label htmlFor="content">Content</Label>
-          <Textarea id="content" rows={10} {...register("content")} />
-          {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
+          <Label htmlFor="answer">Answer</Label>
+          <Textarea id="answer" rows={5} {...register("answer")} />
+          {errors.answer && <p className="text-red-500 text-sm">{errors.answer.message as string}</p>}
         </div>
-        
+
+        <div>
+          <Label htmlFor="categoryId">Category ID</Label>
+          <Input id="categoryId" {...register("categoryId")} />
+          {errors.categoryId && <p className="text-red-500 text-sm">{errors.categoryId.message as string}</p>}
+        </div>
+
+        <div>
+            <Label>Status</Label>
+            <Select value={isPublish ? "true" : "false"} onValueChange={(value) => setValue("isPublish", value === "true")}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="true">Published</SelectItem>
+                <SelectItem value="false">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+        </div>
+
         <div className="flex justify-end space-x-4 pt-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/knowledge")}>Cancel</Button>
+          <Button type="button" variant="outline" onClick={() => router.push("/knowledge")}>Cancel</Button>     
           <Button type="submit">Save Changes</Button>
         </div>
       </form>
