@@ -2,11 +2,13 @@ import { userService } from "@/features/users/services/user.service";
 import Link from "next/link";
 import { User } from "@/types";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function UsersPage() {
-  const users = await userService.getAllUsers();
+  const supabase = await createClient();
+  const users = await userService.getUsers(supabase);
 
   return (
     <div className="p-8">

@@ -1,0 +1,40 @@
+"use client";
+
+import { useState, useRef, useEffect } from 'react';
+import { ChatInput } from './ChatInput';
+import { MessageBubble } from './MessageBubble';
+import { ChatMessage } from '@/features/chat/types';
+
+export function ChatWindow({ conversationId }: { conversationId: string }) {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const sendMessage = async (content: string) => {
+    setLoading(true);
+    setMessages(prev => [...prev, { conversationId, role: 'user', content }]);
+
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ question: content, conversationId })
+    });
+    const data = await response.json();
+
+    setMessages(prev => [...prev, { conversationId, role: 'ai', content: data.answer, sources: data.sources }]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
+  }, [messages]);
+
+  return (
+    <div className='flex flex-col h-[calc(100vh-theme(spacing.20))] md:h-[600px] border rounded-lg p-4 bg-white'>
+      <div ref={scrollRef} className='flex-1 overflow-y-auto space-y-4 mb-4'>
+        {messages.map((m, i) => <MessageBubble key={i} message={m} />)}
+        {loading && <div className='text-sm text-gray-500'>AI is thinking...</div>}
+      </div>
+      <ChatInput onSend={sendMessage} disabled={loading} />
+    </div>
+  );
+}

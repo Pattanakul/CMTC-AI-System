@@ -23,29 +23,42 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Public/Auth routes
-  if (!user && !path.startsWith('/login') && !path.startsWith('/auth')) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-  if (user && path.startsWith('/login')) {
+  if (!user && !path.startsWith('/login') && !path.startsWith('/auth') && path !== '/' && !path.startsWith('/admin/login') && !path.startsWith('/staff/login')) {
     return NextResponse.redirect(new URL('/', request.url));
   }
-
-  // RBAC: Protect /admin routes
-  if (path.startsWith('/admin')) {
-    if (!user) return NextResponse.redirect(new URL('/login', request.url));
-    
-    // Fetch user role
-    const { data: userRole, error } = await supabase
-      .from('user_roles')
-      .select('roles(name)')
-      .eq('user_id', user.id)
+  
+  if (user && (path === '/admin/login' || path === '/staff/login')) {
+    // Redirect based on role if already logged in
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
       .single();
-
-    const roleName = userRole && typeof userRole.roles === 'object' && 'name' in userRole.roles ? (userRole.roles as { name: string }).name : '';
-
-    if (roleName !== 'Super Admin' && roleName !== 'Department Admin') {
-      return NextResponse.redirect(new URL('/403', request.url));
+      
+    if (profile?.role === 'SUPER_ADMIN' || profile?.role === 'ADMIN') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     }
+    return NextResponse.redirect(new URL('/staff/dashboard', request.url));
+  }
+
+  // Admin Route Protection
+  if (path.startsWith('/admin')) {
+      if (!user) return NextResponse.redirect(new URL('/admin/login', request.url));
+      
+      const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+      
+      if (profile?.role !== 'SUPER_ADMIN' && profile?.role !== 'ADMIN') {
+          return NextResponse.redirect(new URL('/staff/dashboard', request.url));
+      }
+  }
+
+  // Staff Route Protection (if needed, e.g., /staff/dashboard)
+  if (path.startsWith('/staff')) {
+      if (!user) return NextResponse.redirect(new URL('/staff/login', request.url));
   }
 
   return supabaseResponse;

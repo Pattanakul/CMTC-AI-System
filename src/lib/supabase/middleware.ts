@@ -13,7 +13,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set({ name, value, ...options }));
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set({ name, value, ...options })); 
           supabaseResponse = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set({ name, value, ...options })
@@ -23,7 +23,60 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
+  const url = request.nextUrl.clone()
+  const pathname = url.pathname
+
+  // Public paths
+  if (pathname === '/') {
+    if (user) {
+        // Already logged in, redirect to dashboard based on role
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+        if (profile?.role === 'Super Admin' || profile?.role === 'Admin') {
+            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+        } else if (profile?.role) {
+            return NextResponse.redirect(new URL('/staff/dashboard', request.url))
+        }
+    }
+    return supabaseResponse
+  }
+
+  // Protect routes
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    const role = profile?.role;
+    const isAdmin = role === 'Super Admin' || role === 'Admin';
+    const isStaff = role === 'Department Admin' || role === 'Teacher' || role === 'Staff';
+
+    // Protect Admin routes
+    if (pathname.startsWith('/admin')) {
+      if (!isAdmin) {
+        return NextResponse.redirect(new URL('/staff/dashboard', request.url))
+      }
+    }
+    // Protect Staff routes
+    else if (pathname.startsWith('/staff')) {
+      if (!isStaff && !isAdmin) {
+          return NextResponse.redirect(new URL('/', request.url)) // Or handle appropriately
+      }
+    }
+  } else {
+    // Not logged in and not at root
+    if (pathname !== '/' && !pathname.startsWith('/_next') && pathname !== '/favicon.ico') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
 
   return supabaseResponse
 }
+
