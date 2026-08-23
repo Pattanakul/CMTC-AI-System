@@ -16,24 +16,33 @@ CREATE TABLE IF NOT EXISTS public.departments (
 ALTER TABLE public.departments ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (for now, allow authenticated users to view/manage, wait user said "Only authenticated users may access this module" so we assume auth is handled in middleware but let's just create permissive policies for authenticated users)
-CREATE POLICY "Allow authenticated users to read departments" 
-    ON public.departments 
-    FOR SELECT 
-    TO authenticated 
-    USING (true);
+DO $$ BEGIN
+  CREATE POLICY "Allow authenticated users to read departments" 
+      ON public.departments 
+      FOR SELECT 
+      TO authenticated 
+      USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
-CREATE POLICY "Allow authenticated users to insert departments" 
-    ON public.departments 
-    FOR INSERT 
-    TO authenticated 
-    WITH CHECK (true);
+DO $$ BEGIN
+  CREATE POLICY "Allow authenticated users to insert departments" 
+      ON public.departments 
+      FOR INSERT 
+      TO authenticated 
+      WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
-CREATE POLICY "Allow authenticated users to update departments" 
-    ON public.departments 
-    FOR UPDATE 
-    TO authenticated 
-    USING (true)
-    WITH CHECK (true);
+DO $$ BEGIN
+  CREATE POLICY "Allow authenticated users to update departments" 
+      ON public.departments 
+      FOR UPDATE 
+      TO authenticated 
+      USING (true)
+      WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Create a trigger to automatically update `updated_at`
 CREATE OR REPLACE FUNCTION public.handle_updated_at()
