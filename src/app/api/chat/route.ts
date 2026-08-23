@@ -1,8 +1,9 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
-import { aiGateway } from '@/features/ai/services/gateway.service';
 import { cacheService } from '@/features/chat/services/cache.service';
 import { conversationService } from '@/features/chat/services/conversation.service';
+import { generateText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -10,6 +11,7 @@ export async function POST(request: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { question, conversationId, departmentId = 'general' } = await request.json();
+  const startTime = Date.now();
 
   // 1. Search Cache
   const cached = await cacheService.searchCache(question);
@@ -29,28 +31,54 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // 2. Call n8n via AI Gateway
+  // 2. Direct OpenAI Call (Temporary until n8n is set up in Milestone 5)
   try {
-    const aiResponse = await aiGateway.processQuestion(question, user.id, departmentId, conversationId);
+    // Fetch previous messages for context
+    const previousMessages = await conversationService.getMessages(conversationId);
+    
+    // Optionally fetch relevant context using pgvector here (simplified for now)
+
+    const { text } = await generateText({
+      model: openai('gpt-4o-mini'),
+      system: `You are a helpful AI assistant for the CMTC organization. Be concise and polite.`,
+      messages: [
+        ...previousMessages.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+        { role: 'user', content: question }
+      ]
+    });
+
+    const duration = Date.now() - startTime;
+    const confidenceScore = 0.9; // placeholder
     
     // 3. Save Cache & Message
-    await cacheService.saveCache(question, aiResponse.answer, aiResponse.confidenceScore);
+    await cacheService.saveCache(question, text, confidenceScore);
     await conversationService.saveMessage({
       conversationId,
       role: 'ai',
-      content: aiResponse.answer,
-      sources: aiResponse.sources,
-      confidenceScore: aiResponse.confidenceScore
+      content: text,
+      sources: [],
+      confidenceScore: confidenceScore
     });
 
+    // Also log analytics directly
+    await supabase.from('ai_analytics').insert([{
+      question,
+      answer: text,
+      response_time_ms: duration,
+      confidence_score: confidenceScore,
+      source_type: 'AI'
+    }]);
+
     return NextResponse.json({
-      answer: aiResponse.answer,
-      sources: aiResponse.sources,
-      confidence: aiResponse.confidenceScore,
-      responseTime: aiResponse.duration, // Using duration from gateway
+      answer: text,
+      sources: [],
+      confidence: confidenceScore,
+      responseTime: duration,
       conversationId
     });
-  } catch {
+  } catch (error) {
+    console.error('AI processing error:', error);
     return NextResponse.json({ error: 'AI processing failed' }, { status: 500 });
   }
 }
+

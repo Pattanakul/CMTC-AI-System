@@ -13,6 +13,9 @@ import { createClient } from '@/lib/supabase/client'
 export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [categories, setCategories] = useState<any[]>([])
+  const [isCategorizing, setIsCategorizing] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<string>('none')
+  const [summaryText, setSummaryText] = useState('')
 
   useEffect(() => {
     async function fetchCategories() {
@@ -22,6 +25,50 @@ export default function NewArticlePage() {
     }
     fetchCategories()
   }, [])
+
+  const handleAutoCategorize = async () => {
+    if (!content || content === '<p></p>') {
+      alert('Please write some content first.')
+      return
+    }
+
+    setIsCategorizing(true)
+    try {
+      const response = await fetch('/api/ai/categorize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: content.replace(/<[^>]*>?/gm, ''), // strip html tags
+          existingCategories: categories,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to auto categorize')
+      
+      const data = await response.json()
+      
+      if (data.suggestedSummary) {
+        setSummaryText(data.suggestedSummary)
+      }
+      
+      if (data.suggestedCategory) {
+        // Find existing category that matches
+        const matched = categories.find(
+          c => c.name.toLowerCase() === data.suggestedCategory.toLowerCase()
+        )
+        if (matched) {
+          setSelectedCategory(matched.id)
+        } else {
+          alert(`AI Suggested Category: ${data.suggestedCategory} (Not found in list)`)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      alert('Auto categorize failed.')
+    } finally {
+      setIsCategorizing(false)
+    }
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
@@ -41,8 +88,19 @@ export default function NewArticlePage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="category_id">Category</Label>
-            <Select name="category_id" defaultValue="none">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="category_id">Category</Label>
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                onClick={handleAutoCategorize}
+                disabled={isCategorizing}
+              >
+                {isCategorizing ? 'Categorizing...' : '✨ Auto Categorize'}
+              </Button>
+            </div>
+            <Select name="category_id" value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -76,6 +134,8 @@ export default function NewArticlePage() {
             name="summary" 
             placeholder="Brief summary of the article..." 
             className="h-20"
+            value={summaryText}
+            onChange={(e) => setSummaryText(e.target.value)}
           />
         </div>
 

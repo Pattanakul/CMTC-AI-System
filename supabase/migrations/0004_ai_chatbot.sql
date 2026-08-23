@@ -1,4 +1,4 @@
-﻿-- Migration: Create AI Chatbot Tables
+-- Migration: Create AI Chatbot Tables
 -- Milestone 6: AI Chatbot Module
 
 -- 1. AI Cache Table
@@ -45,35 +45,18 @@ ALTER TABLE public.conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 
 -- Policies for Conversations
-CREATE POLICY \
-Users
-can
-view
-their
-own
-conversations\
+CREATE POLICY "Users can view their own conversations"
   ON public.conversations FOR SELECT
   TO authenticated
   USING (auth.uid() = user_id);
 
-CREATE POLICY \Users
-can
-insert
-their
-own
-conversations\
+CREATE POLICY "Users can insert their own conversations"
   ON public.conversations FOR INSERT
   TO authenticated
   WITH CHECK (auth.uid() = user_id);
 
 -- Policies for Chat Messages
-CREATE POLICY \Users
-can
-view
-messages
-in
-their
-conversations\
+CREATE POLICY "Users can view messages in their conversations"
   ON public.chat_messages FOR SELECT
   TO authenticated
   USING (EXISTS (
@@ -82,13 +65,7 @@ conversations\
     AND conversations.user_id = auth.uid()
   ));
 
-CREATE POLICY \Users
-can
-insert
-messages
-in
-their
-conversations\
+CREATE POLICY "Users can insert messages in their conversations"
   ON public.chat_messages FOR INSERT
   TO authenticated
   WITH CHECK (EXISTS (
@@ -98,11 +75,7 @@ conversations\
   ));
 
 -- Policies for AI Cache (read-only for authenticated users)
-CREATE POLICY \Authenticated
-users
-can
-read
-ai_cache\
+CREATE POLICY "Authenticated users can read ai_cache"
   ON public.ai_cache FOR SELECT
   TO authenticated
   USING (true);
