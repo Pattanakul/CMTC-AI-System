@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   },
 }
 
+import Navbar from '@/components/layout/Navbar'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,7 +38,8 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   )

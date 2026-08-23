@@ -137,16 +137,16 @@ npm run start
 - [x] Initialize Git
 
 ### 🔲 Milestone 2 — Authentication & User Management
-- [ ] ระบบ Login/Register ด้วย Supabase Auth
-- [ ] User Profile Management
-- [ ] Role-Based Access Control (RBAC)
-- [ ] Protected Routes & Middleware
+- [x] ระบบ Login/Register ด้วย Supabase Auth
+- [x] User Profile Management
+- [x] Role-Based Access Control (RBAC)
+- [x] Protected Routes & Middleware
 
 ### 🔲 Milestone 3 — Knowledge Base Core
-- [ ] CRUD Knowledge Articles
-- [ ] Rich Text Editor (Tiptap/Quill)
-- [ ] Category & Tag Management
-- [ ] File Upload & Media Management
+- [x] CRUD Knowledge Articles
+- [x] Rich Text Editor (Tiptap/Quill)
+- [x] Category & Tag Management
+- [x] File Upload & Media Management
 
 ### 🔲 Milestone 4 — AI Integration
 - [ ] AI-powered Semantic Search
