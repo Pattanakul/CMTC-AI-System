@@ -32,9 +32,5 @@ export async function createClient() {
     }
   )
 
-  // Debugging: Log session status
-  const { data: { session } } = await client.auth.getSession()
-  console.log("Supabase Auth Debug - Session:", session ? "Active" : "NO SESSION")
-
   return client
 }

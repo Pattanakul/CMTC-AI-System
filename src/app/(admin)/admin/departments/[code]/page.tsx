@@ -25,40 +25,39 @@ export default function DepartmentDetailPage() {
         setDepartment(data)
       } catch {
         toast.error('ไม่พบข้อมูลแผนก')
-        router.push('/departments')
-      } finally {
+        router.push('/admin/departments')
+        } finally {
         setLoading(false)
-      }
-    }
-    
-    if (code) {
-      fetchDept()
-    }
-  }, [code, router])
+        }
+        }
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 max-w-4xl space-y-6">
+        if (code) {
+        fetchDept()
+        }
+        }, [code, router])
+
+        if (loading) {
+        return (
+        <div className="container mx-auto px-4 py-8 max-w-4xl space-y-6">
         <Skeleton className="h-10 w-32" />
-        <Skeleton className="h-40 w-full" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid gap-4">
           <Skeleton className="h-32 w-full" />
           <Skeleton className="h-32 w-full" />
           <Skeleton className="h-32 w-full" />
         </div>
-      </div>
-    )
-  }
+        </div>
+        )
+        }
 
-  if (!department) return null
+        if (!department) return null
 
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <Button 
-        variant="ghost" 
+        return (
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <Button
+        variant="ghost"
         className="mb-6 text-slate-500 hover:text-slate-900"
-        onClick={() => router.push('/departments')}
-      >
+        onClick={() => router.push('/admin/departments')}
+        >
         <ArrowLeft className="w-4 h-4 mr-2" />
         กลับไปหน้ารายการ
       </Button>

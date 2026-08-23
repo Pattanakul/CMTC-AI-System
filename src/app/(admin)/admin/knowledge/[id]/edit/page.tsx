@@ -37,7 +37,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
 
   const onSubmit = async (data: UpdateArticle) => {
     console.log(data);
-    router.push("/knowledge");
+    router.push("/admin/knowledge");
   };
 
   if (loading) return <div className="p-8">Loading...</div>;
@@ -83,7 +83,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
         </div>
 
         <div className="flex justify-end space-x-4 pt-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/knowledge")}>Cancel</Button>     
+          <Button type="button" variant="outline" onClick={() => router.push("/admin/knowledge")}>Cancel</Button>     
           <Button type="submit">Save Changes</Button>
         </div>
       </form>

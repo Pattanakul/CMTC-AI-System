@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Upload, ArrowLeft } from "lucide-react";
 import { DragDropUploader } from "./DragDropUploader";
 import { UploadFormSchema, type UploadFormValues } from "@/features/documents/schemas";
-import { DOCUMENT_CATEGORIES } from "@/features/documents/types";
+import { DOCUMENT_CATEGORIES, DOCUMENT_CATEGORY_MAP } from "@/features/documents/types";
 import { uploadDocumentAction } from "@/features/documents/actions";
 
 interface DocumentUploadFormProps {
@@ -118,7 +118,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
       toast.success(`อัปโหลดสำเร็จ ${successCount}/${selectedFiles.length} ไฟล์`, {
         description: "เอกสารถูกบันทึกเข้าระบบแล้ว",
       });
-      setTimeout(() => router.push("/documents"), 1500);
+      setTimeout(() => router.push("/admin/documents"), 1500);
     }
   };
 
@@ -188,9 +188,9 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {DOCUMENT_CATEGORIES.map((cat) => (
-                          <SelectItem key={cat} value={cat}>
-                            {cat}
+                        {Object.entries(DOCUMENT_CATEGORY_MAP).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -329,7 +329,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
           <Button
             type="button"
             variant="ghost"
-            onClick={() => router.push("/documents")}
+            onClick={() => router.push("/admin/documents")}
             disabled={isSubmitting}
             className="gap-2"
           >

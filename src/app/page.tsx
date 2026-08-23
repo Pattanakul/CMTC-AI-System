@@ -51,9 +51,9 @@ export default function LoginPage() {
 
     const role = profile.role;
 
-    if (role === 'Super Admin' || role === 'Admin') {
+    if (role === 'SUPER_ADMIN' || role === 'Super Admin' || role === 'Admin') {
       router.push("/admin/dashboard");
-    } else if (role === 'Department Admin' || role === 'Teacher' || role === 'Staff') {
+    } else if (role === 'STAFF' || role === 'Staff' || role === 'USER' || role === 'Department Admin' || role === 'Teacher') {
       router.push("/staff/dashboard");
     } else {
       setError('บัญชีนี้ไม่มีสิทธิ์เข้าใช้งานระบบ');

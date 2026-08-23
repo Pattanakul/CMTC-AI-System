@@ -39,53 +39,51 @@ export default function EditUserPage({ params }: EditUserPageProps) {
     if (!id) return;
     const supabase = createClient();
     await userService.updateUser(id, data, supabase);
-    router.push("/users");
+    router.push("/admin/users");
   };
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return <div>กำลังโหลด...</div>;
 
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Edit User: {user.fullName}</h1>
+      <h1 className="text-2xl font-bold mb-6">แก้ไขผู้ใช้งาน: {user.fullName}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label>Full Name</Label>
+          <Label>ชื่อ-นามสกุล</Label>
           <Input {...register("fullName")} defaultValue={user.fullName} />
           {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
         </div>
         <div>
-          <Label>Department</Label>
+          <Label>แผนก</Label>
           <Select defaultValue={user.department} onValueChange={(v) => setValue("department", v || "")}>
-            <SelectTrigger><SelectValue placeholder="Select Department" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="เลือกแผนก" /></SelectTrigger>
             <SelectContent>
               {departments.map(d => <SelectItem key={d.id} value={d.name}>{d.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div>
-          <Label>Role</Label>
-          <Select defaultValue={user.role} onValueChange={(v) => setValue("role", v as "USER" | "ADMIN" | "DEPARTMENT_ADMIN" | "SUPER_ADMIN")}>
-            <SelectTrigger><SelectValue placeholder="Select Role" /></SelectTrigger>
+          <Label>บทบาท</Label>
+          <Select defaultValue={user.role} onValueChange={(v) => setValue("role", v as "SUPER_ADMIN" | "STAFF")}>
+            <SelectTrigger><SelectValue placeholder="เลือกบทบาท" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="USER">User</SelectItem>
-              <SelectItem value="ADMIN">Admin</SelectItem>
-              <SelectItem value="DEPARTMENT_ADMIN">Department Admin</SelectItem>
-              <SelectItem value="SUPER_ADMIN">Super Admin</SelectItem>
+              <SelectItem value="STAFF">บุคลากร</SelectItem>
+              <SelectItem value="SUPER_ADMIN">ผู้ดูแลระบบสูงสุด</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div>
-          <Label>Status</Label>
+          <Label>สถานะ</Label>
           <Select defaultValue={user.status} onValueChange={(v) => setValue("status", v as "ACTIVE" | "INACTIVE")}>
-            <SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="เลือกสถานะ" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="ACTIVE">Active</SelectItem>
-              <SelectItem value="INACTIVE">Inactive</SelectItem>
+              <SelectItem value="ACTIVE">ใช้งาน</SelectItem>
+              <SelectItem value="INACTIVE">ไม่ใช้งาน</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <Button type="submit">Update User</Button>
+        <Button type="submit">บันทึกการแก้ไข</Button>
       </form>
     </div>
   );

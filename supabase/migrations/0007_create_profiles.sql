@@ -21,10 +21,9 @@ CREATE POLICY "Admins can view all profiles"
   ON public.profiles FOR SELECT
   USING (
     EXISTS (
-      SELECT 1 FROM public.user_roles ur
-      JOIN public.roles r ON r.id = ur.role_id
-      WHERE ur.user_id = auth.uid()
-      AND r.name IN ('Super Admin', 'Department Admin', 'Admin')
+      SELECT 1 FROM public.profiles p
+      WHERE p.id = auth.uid()
+      AND p.role IN ('Super Admin', 'Department Admin', 'Admin')
     )
   );
 

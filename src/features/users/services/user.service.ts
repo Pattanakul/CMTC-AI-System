@@ -33,6 +33,12 @@ export const userService = {
     return data;
   },
 
+  async deleteUser(id: string, supabaseClient: any) {
+    const { data, error } = await supabaseClient.from('profiles').delete().eq('id', id);
+    if (error) throw error;
+    return data;
+  },
+
   async disableUser(id: string, supabaseClient: any) {
     const { data, error } = await supabaseClient.from('profiles').update({ status: 'INACTIVE' }).eq('id', id).select().single();
     if (error) throw error;

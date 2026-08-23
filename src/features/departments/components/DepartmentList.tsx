@@ -18,6 +18,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -190,7 +191,9 @@ export function DepartmentList({ departments, loading, onEdit, onToggleStatus }:
                         </Button>
                       } />
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>การจัดการ</DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                          <DropdownMenuLabel>การจัดการ</DropdownMenuLabel>
+                        </DropdownMenuGroup>
                         <DropdownMenuItem onClick={() => window.location.href = `/departments/${dept.code}`}>
                           <Search className="mr-2 h-4 w-4" /> ดูรายละเอียด
                         </DropdownMenuItem>

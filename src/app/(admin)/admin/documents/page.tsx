@@ -73,7 +73,7 @@ export default async function DocumentsPage({ searchParams }: DocumentsPageProps
                 <span className="font-semibold text-gray-700">{totalCount}</span> เอกสาร
               </p>
             </div>
-            <Link href="/documents/upload">
+            <Link href="/admin/documents/upload">
               <Button className="gap-2 shadow-sm">
                 <Upload className="h-4 w-4" />
                 อัปโหลดเอกสาร

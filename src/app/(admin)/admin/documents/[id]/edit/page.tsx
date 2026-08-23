@@ -55,7 +55,7 @@ export default async function EditDocumentPage({ params }: EditDocumentPageProps
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link
-            href="/documents"
+            href="/admin/documents"
             className="flex items-center gap-1.5 hover:text-gray-700 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />

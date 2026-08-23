@@ -50,7 +50,7 @@ export default async function KnowledgePage({
           <h1 className="text-2xl font-bold text-slate-900">ข้อมูลความรู้ประชาสัมพันธ์</h1>
           <p className="text-sm text-muted-foreground mt-1">จัดการข้อมูลความรู้สำหรับใช้ในการให้บริการข้อมูลและตอบคำถามประชาสัมพันธ์ของวิทยาลัย</p>
         </div>
-        <Link href="/knowledge/create">
+        <Link href="/admin/knowledge/create">
           <Button className="bg-slate-800 hover:bg-slate-900">
             <Plus className="mr-2 h-4 w-4" /> เพิ่มข้อมูลความรู้
           </Button>
@@ -93,7 +93,7 @@ export default async function KnowledgePage({
                         <DropdownMenuContent align="end">
                         <DropdownMenuItem>ดูข้อมูล</DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link href={`/knowledge/${article.id}/edit`}>แก้ไข</Link>
+                            <Link href={`/admin/knowledge/${article.id}/edit`}>แก้ไข</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>ลบข้อมูล</DropdownMenuItem>
                         </DropdownMenuContent>

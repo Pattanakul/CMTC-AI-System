@@ -34,7 +34,7 @@ export default function CreateArticlePage() {
     try {
       await knowledgeService.createArticle(data);
       toast.success("Article created successfully");
-      router.push("/knowledge");
+      router.push("/admin/knowledge");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to create article");
     }
@@ -84,7 +84,7 @@ export default function CreateArticlePage() {
         </div>
 
         <div className="flex justify-end space-x-4 pt-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/knowledge")}>Cancel</Button>     
+          <Button type="button" variant="outline" onClick={() => router.push("/admin/knowledge")}>Cancel</Button>     
           <Button type="submit">Create</Button>
         </div>
       </form>

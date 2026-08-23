@@ -106,6 +106,16 @@ export const DOCUMENT_CATEGORIES: DocumentCategory[] = [
   "General Documents",
 ];
 
+export const DOCUMENT_CATEGORY_MAP: Record<DocumentCategory, string> = {
+  "Admissions": "การรับสมัคร",
+  "Tuition Fees": "ค่าธรรมเนียมการศึกษา",
+  "Departments": "แผนกวิชา",
+  "Regulations": "ระเบียบข้อบังคับ",
+  "Curriculum": "หลักสูตร",
+  "News": "ข่าวสาร",
+  "General Documents": "เอกสารทั่วไป",
+};
+
 export const STORAGE_FOLDER_MAP: Record<DocumentCategory, string> = {
   "Admissions": "admissions",
   "Tuition Fees": "admissions",

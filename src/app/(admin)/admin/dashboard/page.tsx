@@ -18,7 +18,7 @@ export default async function AdminDashboardPage() {
     .eq('id', user.id)
     .single();
 
-  if (!profile || !['Super Admin', 'Admin', 'Department Admin'].includes(profile.role)) {
+  if (!profile || !['SUPER_ADMIN', 'Super Admin'].includes(profile.role)) {
     redirect("/403"); // Forbidden page
   }
   

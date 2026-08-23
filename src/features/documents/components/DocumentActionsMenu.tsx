@@ -90,7 +90,9 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuLabel>การจัดการเอกสาร</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>การจัดการเอกสาร</DropdownMenuLabel>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
