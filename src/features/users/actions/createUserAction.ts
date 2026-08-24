@@ -20,7 +20,7 @@ export async function createUserAction(data: CreateUser & { password: string }) 
     .eq("id", currentUser.id)
     .single();
 
-  if (!profile || !["SUPER_ADMIN", "Super Admin"].includes(profile.role || "")) {
+  if (!profile || !["Super Admin", "Admin"].includes(profile.role || "")) {
     return { error: "คุณไม่มีสิทธิ์สร้างบุคลากร" };
   }
 

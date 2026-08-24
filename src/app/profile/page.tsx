@@ -31,7 +31,7 @@ export default async function ProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={updateProfileAction} className="space-y-6">
+          <form action={updateProfileAction as unknown as (payload: FormData) => void} className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>

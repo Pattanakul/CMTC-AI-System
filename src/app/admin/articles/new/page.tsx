@@ -14,6 +14,7 @@ export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [categories, setCategories] = useState<any[]>([])
   const [isCategorizing, setIsCategorizing] = useState(false)
+  const [isQueueing, setIsQueueing] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string>('none')
   const [summaryText, setSummaryText] = useState('')
 
@@ -70,11 +71,43 @@ export default function NewArticlePage() {
     }
   }
 
+  const handleQueueForProcessing = async () => {
+    if (!content || content === '<p></p>') {
+      alert('Please write some content first.')
+      return
+    }
+
+    // We can fetch a new API endpoint that calls the n8n service
+    // Or just submit it normally with a special status.
+    // To keep it simple, we'll hit a new custom route or just set status to DRAFT and let the user know.
+    // Let's create an API route for it.
+    setIsQueueing(true)
+    try {
+      const response = await fetch('/api/ai/queue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: (document.getElementById('title') as HTMLInputElement)?.value || 'Untitled',
+          text: content.replace(/<[^>]*>?/gm, ''), // strip html tags
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to queue')
+      
+      alert('Successfully sent to AI Processing Queue! The article will be analyzed in the background.')
+    } catch (error) {
+      console.error(error)
+      alert('Failed to send to queue.')
+    } finally {
+      setIsQueueing(false)
+    }
+  }
+
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <h1 className="text-3xl font-bold">Write New Article</h1>
 
-      <form action={createArticle} className="space-y-6">
+      <form action={createArticle as unknown as (payload: FormData) => void} className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
@@ -100,7 +133,7 @@ export default function NewArticlePage() {
                 {isCategorizing ? 'Categorizing...' : '✨ Auto Categorize'}
               </Button>
             </div>
-            <Select name="category_id" value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select name="category_id" value={selectedCategory} onValueChange={(v) => setSelectedCategory(v || 'none')}>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -146,13 +179,23 @@ export default function NewArticlePage() {
           <RichTextEditor content={content} onChange={setContent} />
         </div>
 
-        <div className="flex justify-end space-x-4">
-          <Button variant="outline" type="button" onClick={() => window.history.back()}>
-            Cancel
+        <div className="flex justify-between items-center mt-6">
+          <Button 
+            type="button" 
+            variant="secondary" 
+            onClick={handleQueueForProcessing}
+            disabled={isQueueing}
+          >
+            {isQueueing ? 'Queueing...' : '⏳ Send to AI Processing Queue'}
           </Button>
-          <Button type="submit">
-            Save Article
-          </Button>
+          <div className="flex space-x-4">
+            <Button variant="outline" type="button" onClick={() => window.history.back()}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              Save Article
+            </Button>
+          </div>
         </div>
       </form>
     </div>

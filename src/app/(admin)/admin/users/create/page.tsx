@@ -38,7 +38,7 @@ export default function CreateUserPage() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       status: "ACTIVE",
-      role: "STAFF",
+      role: "Staff",
       fullName: "",
       email: "",
       phone: "",
@@ -111,11 +111,11 @@ export default function CreateUserPage() {
             </div>
             <div>
               <Label>สิทธิ์การใช้งาน <span className="text-red-500">*</span></Label>
-              <Select onValueChange={(v) => setValue("role", v as any)} defaultValue="STAFF">
+              <Select onValueChange={(v) => setValue("role", v as any)} defaultValue="Staff">
                 <SelectTrigger><SelectValue placeholder="เลือกสิทธิ์การใช้งาน" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="STAFF">บุคลากร</SelectItem>
-                  <SelectItem value="SUPER_ADMIN">ผู้ดูแลระบบสูงสุด (Super Admin)</SelectItem>
+                  <SelectItem value="Staff">บุคลากร</SelectItem>
+                  <SelectItem value="Super Admin">ผู้ดูแลระบบสูงสุด (Super Admin)</SelectItem>
                 </SelectContent>
               </Select>
               {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}

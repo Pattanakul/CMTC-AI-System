@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(prevState: any, formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
@@ -28,7 +28,7 @@ export async function loginAction(formData: FormData) {
   redirect('/')
 }
 
-export async function registerAction(formData: FormData) {
+export async function registerAction(prevState: any, formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const firstName = formData.get('first_name') as string

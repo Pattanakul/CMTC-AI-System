@@ -65,11 +65,11 @@ export default function EditUserPage({ params }: EditUserPageProps) {
         </div>
         <div>
           <Label>บทบาท</Label>
-          <Select defaultValue={user.role} onValueChange={(v) => setValue("role", v as "SUPER_ADMIN" | "STAFF")}>
+          <Select defaultValue={user.role} onValueChange={(v) => setValue("role", v as "Super Admin" | "Staff")}>
             <SelectTrigger><SelectValue placeholder="เลือกบทบาท" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="STAFF">บุคลากร</SelectItem>
-              <SelectItem value="SUPER_ADMIN">ผู้ดูแลระบบสูงสุด</SelectItem>
+              <SelectItem value="Staff">บุคลากร</SelectItem>
+              <SelectItem value="Super Admin">ผู้ดูแลระบบสูงสุด</SelectItem>
             </SelectContent>
           </Select>
         </div>

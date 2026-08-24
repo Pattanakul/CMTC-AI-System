@@ -1,3 +1,6 @@
+'use client'
+
+import { useActionState } from 'react'
 import { loginAction } from '@/app/auth/actions'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -6,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default function LoginPage() {
+  const [state, action, pending] = useActionState(loginAction, undefined)
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50/50 p-4 dark:bg-gray-950">
       <Card className="w-full max-w-md">
@@ -16,7 +20,12 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={loginAction} className="space-y-4">
+          <form action={action} className="space-y-4">
+            {state?.error && (
+              <div className="p-3 text-sm font-medium bg-red-100 text-red-600 rounded-md">
+                {state.error}
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -39,8 +48,8 @@ export default function LoginPage() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button type="submit" className="w-full" disabled={pending}>
+              {pending ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
         </CardContent>

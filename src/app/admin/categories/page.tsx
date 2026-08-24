@@ -19,7 +19,7 @@ export default async function CategoriesPage() {
             <CardTitle>Add Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={createCategory} className="space-y-4">
+            <form action={createCategory as unknown as (payload: FormData) => void} className="space-y-4">
               <div className="space-y-2">
                 <Input name="name" placeholder="Category Name" required />
               </div>

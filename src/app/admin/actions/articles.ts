@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import { n8nService } from '@/features/automation/n8n.service'
+
 export async function createArticle(formData: FormData) {
   const title = formData.get('title') as string
   const slug = formData.get('slug') as string
@@ -47,6 +49,12 @@ export async function createArticle(formData: FormData) {
     .single()
 
   if (error) return { error: error.message }
+
+  // Trigger n8n automation if published
+  if (status === 'PUBLISHED' && data?.id) {
+    // Non-blocking call to n8n webhook
+    n8nService.triggerArticlePublished(data.id, title, user.id).catch(console.error);
+  }
 
   revalidatePath('/admin/articles')
   redirect('/admin/articles')

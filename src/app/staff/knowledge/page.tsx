@@ -26,6 +26,7 @@ export default async function KnowledgePage({
     articles = await knowledgeService.getArticles({
       search: params.search,
       categoryId: params.categoryId,
+      departmentId: profile?.department_id, // <== เพิ่มการกรองแผนกตรงนี้
       isPublish: params.isPublish === 'true' ? true : params.isPublish === 'false' ? false : undefined,
     }, supabase) || [];
   } catch (error: any) {
@@ -50,7 +51,7 @@ export default async function KnowledgePage({
           <h1 className="text-2xl font-bold text-slate-900">ข้อมูลความรู้ประชาสัมพันธ์</h1>
           <p className="text-sm text-muted-foreground mt-1">จัดการข้อมูลความรู้สำหรับใช้ในการให้บริการข้อมูลและตอบคำถามประชาสัมพันธ์ของวิทยาลัย</p>
         </div>
-        <Link href="/admin/knowledge/create">
+        <Link href="/staff/knowledge/create">
           <Button className="bg-slate-800 hover:bg-slate-900">
             <Plus className="mr-2 h-4 w-4" /> เพิ่มข้อมูลความรู้
           </Button>
@@ -92,7 +93,7 @@ export default async function KnowledgePage({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                         <DropdownMenuItem>ดูข้อมูล</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = `/admin/knowledge/${article.id}/edit`}>
+                        <DropdownMenuItem onClick={() => window.location.href = `/staff/knowledge/${article.id}/edit`}>
                             แก้ไข
                         </DropdownMenuItem>
                         <DropdownMenuItem>ลบข้อมูล</DropdownMenuItem>

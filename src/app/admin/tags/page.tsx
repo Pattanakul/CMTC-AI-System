@@ -19,7 +19,7 @@ export default async function TagsPage() {
             <CardTitle>Add Tag</CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={createTag} className="space-y-4">
+            <form action={createTag as unknown as (payload: FormData) => void} className="space-y-4">
               <div className="space-y-2">
                 <Input name="name" placeholder="Tag Name" required />
               </div>

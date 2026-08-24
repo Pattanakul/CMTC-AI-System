@@ -1,3 +1,6 @@
+'use client'
+
+import { useActionState } from 'react'
 import { registerAction } from '@/app/auth/actions'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -6,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default function RegisterPage() {
+  const [state, action, pending] = useActionState(registerAction, undefined)
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50/50 p-4 dark:bg-gray-950">
       <Card className="w-full max-w-md">
@@ -16,7 +20,12 @@ export default function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={registerAction} className="space-y-4">
+          <form action={action} className="space-y-4">
+            {state?.error && (
+              <div className="p-3 text-sm font-medium bg-red-100 text-red-600 rounded-md">
+                {state.error}
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="first_name">First Name</Label>
@@ -41,8 +50,8 @@ export default function RegisterPage() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Sign Up
+            <Button type="submit" className="w-full" disabled={pending}>
+              {pending ? 'Creating account...' : 'Create account'}
             </Button>
           </form>
         </CardContent>

@@ -6,6 +6,19 @@ import { Button } from '@/components/ui/button'
 export default async function Navbar() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  
+  let profile = null;
+  if (user) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    profile = data;
+  }
+
+  const isAdmin = profile?.role === 'Super Admin' || profile?.role === 'Admin';
+  const dashboardUrl = isAdmin ? '/admin/dashboard' : '/staff/dashboard';
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -20,6 +33,11 @@ export default async function Navbar() {
         <div className="flex items-center space-x-2">
           {user ? (
             <>
+              <Link href={dashboardUrl}>
+                <Button variant="ghost" size="sm">
+                  Dashboard
+                </Button>
+              </Link>
               <Link href="/profile">
                 <Button variant="ghost" size="sm">
                   Profile
