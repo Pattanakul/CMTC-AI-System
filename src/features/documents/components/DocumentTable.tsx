@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import type { DocumentRow } from "@/features/documents/types";
 import { DocumentStatusBadge } from "./DocumentStatusBadge";
+import { DocumentProcessingStatusBadge } from "./DocumentProcessingStatusBadge";
 import { FileTypeBadge } from "./FileTypeBadge";
 import { DocumentActionsMenu } from "./DocumentActionsMenu";
 
@@ -114,9 +115,11 @@ export function DocumentTable({ documents, isLoading = false }: DocumentTablePro
             <TableHead className="font-semibold text-gray-700">หมวดหมู่</TableHead>
             <TableHead className="font-semibold text-gray-700">ประเภท</TableHead>
             <TableHead className="font-semibold text-gray-700">ขนาด</TableHead>
-            <TableHead className="font-semibold text-gray-700">สถานะ</TableHead>
-            <TableHead className="font-semibold text-gray-700">วันที่อัปโหลด</TableHead>
-            <TableHead className="w-[60px]"></TableHead>
+              <TableHead className="font-semibold text-gray-700">สถานะ</TableHead>
+              <TableHead className="font-semibold text-gray-700">ประมวลผล</TableHead>
+              <TableHead className="font-semibold text-gray-700">วันที่อัปโหลด</TableHead>
+              <TableHead className="font-semibold text-gray-700">Version</TableHead>
+              <TableHead className="w-[60px]"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -185,10 +188,20 @@ export function DocumentTable({ documents, isLoading = false }: DocumentTablePro
                 <DocumentStatusBadge status={doc.status} />
               </TableCell>
 
+              <TableCell>
+                <DocumentProcessingStatusBadge status={doc.processing_status} />
+              </TableCell>
+
               {/* Date */}
               <TableCell>
                 <span className="text-sm text-gray-500 whitespace-nowrap">
                   {formatDate(doc.created_at)}
+                </span>
+              </TableCell>
+
+              <TableCell>
+                <span className="text-sm font-medium text-gray-700">
+                  v{doc.version ?? 1}
                 </span>
               </TableCell>
 

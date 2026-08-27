@@ -19,6 +19,9 @@ import {
   KeyRound,
   Globe,
   Folder,
+  RefreshCw,
+  FileCode2,
+  ExternalLink,
 } from "lucide-react";
 import {
   AlertDialog,
@@ -33,12 +36,14 @@ import {
 import { toast } from "sonner";
 import type { DocumentRow } from "@/features/documents/types";
 import { DocumentStatusBadge } from "./DocumentStatusBadge";
+import { DocumentProcessingStatusBadge } from "./DocumentProcessingStatusBadge";
 import { FileTypeBadge } from "./FileTypeBadge";
 import {
   archiveDocumentAction,
   enableDocumentAction,
   disableDocumentAction,
   getDownloadUrlAction,
+  reprocessDocumentAction,
 } from "@/features/documents/actions";
 
 interface DocumentDetailCardProps {
@@ -75,6 +80,10 @@ export function DocumentDetailCard({
   const [loading, setLoading] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [disableOpen, setDisableOpen] = useState(false);
+  const [previewMode, setPreviewMode] = useState<"original" | "markdown">(
+    "markdown"
+  );
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
 
   const handleDownload = async () => {
     setLoading("download");
@@ -91,6 +100,34 @@ export function DocumentDetailCard({
       link.click();
       window.document.body.removeChild(link);
       toast.success("เริ่มดาวน์โหลดไฟล์แล้ว");
+    }
+  };
+
+  const handlePreviewOriginal = async () => {
+    setPreviewMode("original");
+    if (originalUrl) return;
+
+    setLoading("preview-original");
+    const result = await getDownloadUrlAction(document.storage_path);
+    setLoading(null);
+
+    if (result.error) {
+      toast.error("เปิดไฟล์ต้นฉบับไม่สำเร็จ", { description: result.error });
+    } else if (result.data) {
+      setOriginalUrl(result.data);
+    }
+  };
+
+  const handleReprocess = async () => {
+    setLoading("reprocess");
+    const result = await reprocessDocumentAction(document.id);
+    setLoading(null);
+
+    if (result.error) {
+      toast.error("ประมวลผลไม่สำเร็จ", { description: result.error });
+    } else {
+      toast.success("ประมวลผลเอกสารใหม่แล้ว");
+      router.refresh();
     }
   };
 
@@ -143,6 +180,7 @@ export function DocumentDetailCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 flex-wrap mb-2">
               <DocumentStatusBadge status={document.status} />
+              <DocumentProcessingStatusBadge status={document.processing_status} />
               <FileTypeBadge fileType={document.file_type} />
               <Badge variant="secondary" className="text-xs">
                 {document.category}
@@ -156,6 +194,21 @@ export function DocumentDetailCard({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleReprocess}
+              disabled={loading === "reprocess"}
+              className="gap-2"
+            >
+              {loading === "reprocess" ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              ประมวลผลใหม่
+            </Button>
+
             <Button
               variant="outline"
               size="sm"
@@ -299,6 +352,75 @@ export function DocumentDetailCard({
                 </CardContent>
               </Card>
             )}
+
+            <Card className="border-gray-100 shadow-sm">
+              <CardHeader className="pb-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <CardTitle className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <FileCode2 className="h-4 w-4 text-slate-500" />
+                    ตรวจสอบเนื้อหาเอกสาร
+                  </CardTitle>
+                  <div className="inline-flex rounded-md border border-gray-200 bg-white p-1">
+                    <Button
+                      type="button"
+                      variant={previewMode === "original" ? "secondary" : "ghost"}
+                      size="sm"
+                      onClick={handlePreviewOriginal}
+                      className="h-8 gap-2"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      ไฟล์ต้นฉบับ
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={previewMode === "markdown" ? "secondary" : "ghost"}
+                      size="sm"
+                      onClick={() => setPreviewMode("markdown")}
+                      className="h-8 gap-2"
+                    >
+                      <FileCode2 className="h-4 w-4" />
+                      Markdown
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {previewMode === "original" ? (
+                  <div className="rounded-md border border-gray-100 bg-gray-50 p-4">
+                    {loading === "preview-original" ? (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        กำลังเตรียมไฟล์ต้นฉบับ...
+                      </div>
+                    ) : originalUrl ? (
+                      <a
+                        href={originalUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        เปิดไฟล์ต้นฉบับในแท็บใหม่
+                      </a>
+                    ) : (
+                      <p className="text-sm text-gray-500">
+                        กดไฟล์ต้นฉบับเพื่อสร้างลิงก์สำหรับตรวจสอบ
+                      </p>
+                    )}
+                  </div>
+                ) : document.markdown_content ? (
+                  <pre className="max-h-[520px] overflow-auto rounded-md border border-gray-100 bg-slate-950 p-4 text-xs leading-6 text-slate-100 whitespace-pre-wrap">
+                    {document.markdown_content}
+                  </pre>
+                ) : (
+                  <div className="rounded-md border border-dashed border-gray-200 bg-gray-50 p-6 text-sm text-gray-500">
+                    {document.processing_status === "FAILED"
+                      ? document.processing_error ?? "เอกสารนี้ประมวลผลไม่สำเร็จ"
+                      : "ยังไม่มี Markdown สำหรับเอกสารนี้"}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
 
           {/* Metadata Sidebar */}
@@ -319,6 +441,58 @@ export function DocumentDetailCard({
                     </p>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-2">
+                  <FileCode2 className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-400">สถานะประมวลผล</p>
+                    <div className="mt-1">
+                      <DocumentProcessingStatusBadge
+                        status={document.processing_status}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2">
+                  <RefreshCw className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-400">Version</p>
+                    <p className="text-sm font-medium text-gray-700">
+                      v{document.version ?? 1}
+                    </p>
+                  </div>
+                </div>
+
+                {document.processed_at && (
+                  <div className="flex items-start gap-2">
+                    <Calendar className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-gray-400">วันที่ประมวลผล</p>
+                      <p className="text-sm font-medium text-gray-700">
+                        {formatDate(document.processed_at)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {document.content_hash && (
+                  <div className="flex items-start gap-2">
+                    <KeyRound className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-gray-400">Content Hash</p>
+                      <p className="text-xs font-mono text-gray-500 break-all">
+                        {document.content_hash}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {document.processing_error && (
+                  <div className="rounded-md border border-red-100 bg-red-50 p-3 text-xs text-red-700">
+                    {document.processing_error}
+                  </div>
+                )}
 
                 <div className="flex items-start gap-2">
                   <Calendar className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />

@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Upload, ArrowLeft } from "lucide-react";
 import { DragDropUploader } from "./DragDropUploader";
 import { UploadFormSchema, type UploadFormValues } from "@/features/documents/schemas";
-import { DOCUMENT_CATEGORIES, DOCUMENT_CATEGORY_MAP } from "@/features/documents/types";
+import { DOCUMENT_CATEGORY_MAP } from "@/features/documents/types";
 import { uploadDocumentAction } from "@/features/documents/actions";
 
 interface DocumentUploadFormProps {

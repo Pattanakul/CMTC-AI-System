@@ -9,6 +9,7 @@ import {
   enableDocumentAction,
   disableDocumentAction,
   getDownloadUrlAction,
+  reprocessDocumentAction,
 } from "../actions";
 
 // ─── useDocumentUpload ────────────────────────────────────────────────────────
@@ -118,11 +119,26 @@ export function useDocumentActions() {
     return !result.error;
   };
 
+  const reprocessDocument = async (id: string, title: string) => {
+    setLoadingId(id);
+    const result = await reprocessDocumentAction(id);
+    setLoadingId(null);
+    if (result.error) {
+      toast.error("ประมวลผลไม่สำเร็จ", { description: result.error });
+    } else {
+      toast.success("ประมวลผลเอกสารใหม่แล้ว", {
+        description: `"${title}" พร้อมใช้งานสำหรับ Knowledge Base`,
+      });
+    }
+    return !result.error;
+  };
+
   return {
     loadingId,
     archiveDocument,
     enableDocument,
     disableDocument,
     downloadDocument,
+    reprocessDocument,
   };
 }

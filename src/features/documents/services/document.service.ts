@@ -33,6 +33,9 @@ export const documentService = {
     if (filters?.status) {
       query = query.eq("status", filters.status);
     }
+    if (filters?.processingStatus) {
+      query = query.eq("processing_status", filters.processingStatus);
+    }
 
     const { data, error } = await query;
     if (error) throw error;
@@ -87,6 +90,9 @@ export const documentService = {
           uploaded_by: documentData.uploadedBy,
           language: documentData.language,
           status: documentData.status,
+          processing_status: documentData.processingStatus ?? "UPLOADED",
+          version: documentData.version ?? 1,
+          content_hash: documentData.contentHash ?? null,
         },
       ])
       .select()
@@ -109,6 +115,12 @@ export const documentService = {
       tags: string[];
       language: string;
       status: string;
+      markdown_content: string | null;
+      processing_status: string;
+      processing_error: string | null;
+      processed_at: string | null;
+      version: number;
+      content_hash: string | null;
     }> = {};
 
     if (documentData.displayTitle !== undefined)
@@ -127,6 +139,18 @@ export const documentService = {
       updatePayload.language = documentData.language;
     if (documentData.status !== undefined)
       updatePayload.status = documentData.status;
+    if (documentData.markdownContent !== undefined)
+      updatePayload.markdown_content = documentData.markdownContent;
+    if (documentData.processingStatus !== undefined)
+      updatePayload.processing_status = documentData.processingStatus;
+    if (documentData.processingError !== undefined)
+      updatePayload.processing_error = documentData.processingError;
+    if (documentData.processedAt !== undefined)
+      updatePayload.processed_at = documentData.processedAt;
+    if (documentData.version !== undefined)
+      updatePayload.version = documentData.version;
+    if (documentData.contentHash !== undefined)
+      updatePayload.content_hash = documentData.contentHash;
 
     const { data, error } = await supabase
       .from("documents")
@@ -181,6 +205,11 @@ export const documentService = {
       .download(storagePath);
     if (error) throw error;
     return data;
+  },
+
+  async downloadDocumentFile(storagePath: string): Promise<File> {
+    const blob = await this.downloadDocument(storagePath);
+    return new File([blob], storagePath.split("/").pop() ?? "document");
   },
 
   async getSignedUrl(storagePath: string, expiresIn = 3600): Promise<string> {

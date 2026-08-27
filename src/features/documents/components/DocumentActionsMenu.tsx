@@ -31,6 +31,7 @@ import {
   Power,
   PowerOff,
   Loader2,
+  RefreshCw,
 } from "lucide-react";
 import type { DocumentRow } from "@/features/documents/types";
 import { useDocumentActions } from "@/features/documents/hooks";
@@ -41,7 +42,14 @@ interface DocumentActionsMenuProps {
 
 export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
   const router = useRouter();
-  const { loadingId, archiveDocument, enableDocument, disableDocument, downloadDocument } =
+  const {
+    loadingId,
+    archiveDocument,
+    enableDocument,
+    disableDocument,
+    downloadDocument,
+    reprocessDocument,
+  } =
     useDocumentActions();
 
   const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
@@ -69,6 +77,11 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
 
   const handleDownload = async () => {
     await downloadDocument(document.storage_path, document.file_name);
+  };
+
+  const handleReprocess = async () => {
+    await reprocessDocument(document.id, document.display_title);
+    router.refresh();
   };
 
   return (
@@ -113,6 +126,11 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
           <DropdownMenuItem onClick={handleDownload}>
             <Download className="h-4 w-4 mr-2" />
             ดาวน์โหลด
+          </DropdownMenuItem>
+
+          <DropdownMenuItem onClick={handleReprocess}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            ประมวลผลใหม่
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />

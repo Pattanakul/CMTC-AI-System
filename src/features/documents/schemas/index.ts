@@ -2,6 +2,12 @@ import { z } from "zod";
 import { MAX_FILE_SIZE } from "../types";
 
 export const DocumentStatusSchema = z.enum(["ACTIVE", "ARCHIVED", "DISABLED"]);
+export const DocumentProcessingStatusSchema = z.enum([
+  "UPLOADED",
+  "PROCESSING",
+  "READY",
+  "FAILED",
+]);
 export const DocumentCategorySchema = z.enum([
   "Admissions",
   "Tuition Fees",
@@ -27,6 +33,9 @@ export const DocumentSchema = z.object({
   uploadedBy: z.string().uuid(),
   language: z.string().default("th"),
   status: DocumentStatusSchema.default("ACTIVE"),
+  processingStatus: DocumentProcessingStatusSchema.default("UPLOADED"),
+  version: z.number().int().positive().default(1),
+  contentHash: z.string().optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });

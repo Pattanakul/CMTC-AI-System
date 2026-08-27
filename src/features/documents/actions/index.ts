@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 import { documentService } from "../services/document.service";
+import { processUploadedDocument } from "../services/document-processing.service";
 import { UploadFormSchema, UpdateDocumentSchema } from "../schemas";
 import type { DocumentCategory, DocumentFilters } from "../types";
 
@@ -65,7 +66,11 @@ export async function uploadDocumentAction(formData: FormData) {
   try {
     const category = parsed.data.category as DocumentCategory;
 
-    // Upload file to storage
+    console.info("[Document] Upload started", {
+      fileName: file.name,
+      fileSize: file.size,
+    });
+
     const storagePath = await documentService.uploadDocumentFile(file, category);
 
     // Parse keywords and tags from comma-separated strings
@@ -79,7 +84,6 @@ export async function uploadDocumentAction(formData: FormData) {
     // Get file extension as file type
     const fileType = file.name.split(".").pop()?.toLowerCase() ?? "unknown";
 
-    // Create document record
     const document = await documentService.createDocument({
       fileName: file.name,
       displayTitle: parsed.data.displayTitle,
@@ -94,12 +98,62 @@ export async function uploadDocumentAction(formData: FormData) {
       uploadedBy: user.id,
       language: parsed.data.language,
       status: "ACTIVE",
+      processingStatus: "UPLOADED",
+      version: 1,
     });
 
-    revalidatePath("/documents");
-    return { data: document, error: null };
+    const processedDocument = await processUploadedDocument({
+      supabase,
+      document,
+      file,
+    });
+
+    revalidatePath("/admin/documents");
+    revalidatePath("/staff/documents");
+    return { data: processedDocument, error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการอัปโหลดเอกสาร";
+    return { data: null, error: message };
+  }
+}
+
+// ─── Reprocess Document (Server Action) ──────────────────────────────────────
+
+export async function reprocessDocumentAction(id: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { data: null, error: "กรุณาเข้าสู่ระบบก่อน" };
+  }
+
+  try {
+    const document = await documentService.getDocumentById(id);
+    const originalFile = await documentService.downloadDocumentFile(
+      document.storage_path
+    );
+
+    console.info("[Document] Reprocess requested", {
+      documentId: id,
+      fileName: document.file_name,
+    });
+
+    const processedDocument = await processUploadedDocument({
+      supabase,
+      document,
+      file: originalFile,
+      forceReprocess: true,
+    });
+
+    revalidatePath("/admin/documents");
+    revalidatePath("/staff/documents");
+    revalidatePath(`/admin/documents/${id}`);
+    return { data: processedDocument, error: null };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการประมวลผลเอกสารใหม่";
     return { data: null, error: message };
   }
 }
@@ -158,8 +212,8 @@ export async function updateDocumentAction(id: string, formData: FormData) {
       status: parsed.data.status,
     });
 
-    revalidatePath("/documents");
-    revalidatePath(`/documents/${id}`);
+    revalidatePath("/admin/documents");
+    revalidatePath(`/admin/documents/${id}`);
     return { data: document, error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการอัปเดตเอกสาร";
@@ -172,7 +226,7 @@ export async function updateDocumentAction(id: string, formData: FormData) {
 export async function archiveDocumentAction(id: string) {
   try {
     await documentService.archiveDocument(id);
-    revalidatePath("/documents");
+    revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการจัดเก็บเอกสาร";
@@ -185,7 +239,7 @@ export async function archiveDocumentAction(id: string) {
 export async function enableDocumentAction(id: string) {
   try {
     await documentService.enableDocument(id);
-    revalidatePath("/documents");
+    revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการเปิดใช้งานเอกสาร";
@@ -198,7 +252,7 @@ export async function enableDocumentAction(id: string) {
 export async function disableDocumentAction(id: string) {
   try {
     await documentService.disableDocument(id);
-    revalidatePath("/documents");
+    revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการปิดใช้งานเอกสาร";

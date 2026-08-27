@@ -1,4 +1,9 @@
 export type DocumentStatus = "ACTIVE" | "ARCHIVED" | "DISABLED";
+export type DocumentProcessingStatus =
+  | "UPLOADED"
+  | "PROCESSING"
+  | "READY"
+  | "FAILED";
 
 export type DocumentCategory =
   | "Admissions"
@@ -24,6 +29,12 @@ export interface DocumentRecord {
   uploadedBy: string;
   language: string;
   status: DocumentStatus;
+  markdownContent?: string | null;
+  processingStatus?: DocumentProcessingStatus;
+  processingError?: string | null;
+  processedAt?: Date;
+  version?: number;
+  contentHash?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -43,6 +54,13 @@ export interface DocumentRow {
   uploaded_by: string;
   language: string;
   status: DocumentStatus;
+  markdown_content?: string | null;
+  processing_status?: DocumentProcessingStatus;
+  processing_error?: string | null;
+  processed_at?: string | null;
+  version?: number;
+  content_hash?: string | null;
+  ai_ready?: boolean;
   created_at?: string;
   updated_at?: string;
 }
@@ -61,6 +79,9 @@ export interface CreateDocument {
   uploadedBy: string;
   language: string;
   status: DocumentStatus;
+  processingStatus?: DocumentProcessingStatus;
+  version?: number;
+  contentHash?: string;
 }
 
 export interface UpdateDocument {
@@ -72,6 +93,12 @@ export interface UpdateDocument {
   tags?: string[];
   language?: string;
   status?: DocumentStatus;
+  markdownContent?: string | null;
+  processingStatus?: DocumentProcessingStatus;
+  processingError?: string | null;
+  processedAt?: string | null;
+  version?: number;
+  contentHash?: string | null;
 }
 
 export interface DocumentFilters {
@@ -80,6 +107,7 @@ export interface DocumentFilters {
   departmentId?: string;
   fileType?: string;
   status?: DocumentStatus;
+  processingStatus?: DocumentProcessingStatus;
 }
 
 export const ALLOWED_FILE_TYPES = [

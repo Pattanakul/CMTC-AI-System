@@ -4,6 +4,8 @@ import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { deleteUserAction } from "@/features/users/actions/deleteUserAction";
+import { resetPasswordAction } from "@/features/users/actions/resetPasswordAction";
+import { ResetPasswordButton } from "@/features/users/components/ResetPasswordButton";
 
 export const dynamic = "force-dynamic";
 
@@ -80,10 +82,17 @@ export default async function UsersPage() {
                 <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <Link href={`/admin/users/${user.id}/edit`} className="text-indigo-600 hover:text-indigo-900 mr-4">แก้ไข</Link>
-                  <form action={deleteUserAction.bind(null, user.id) as unknown as (payload: FormData) => void} className="inline-block">
-                    <Button type="submit" variant="destructive" size="sm">ลบ</Button>
-                  </form>
+                  <div className="flex items-center gap-2">
+                    <Link href={`/admin/users/${user.id}/edit`} className="text-indigo-600 hover:text-indigo-900">แก้ไข</Link>
+                    <ResetPasswordButton
+                      userId={user.id}
+                      userName={user.full_name}
+                      resetAction={resetPasswordAction}
+                    />
+                    <form action={deleteUserAction.bind(null, user.id) as unknown as (payload: FormData) => void} className="inline-block">
+                      <Button type="submit" variant="destructive" size="sm">ลบ</Button>
+                    </form>
+                  </div>
                 </td>
               </tr>
             ))}
