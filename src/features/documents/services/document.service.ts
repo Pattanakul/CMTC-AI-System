@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
 import {
   CreateDocument,
   UpdateDocument,
@@ -7,6 +8,12 @@ import {
   STORAGE_FOLDER_MAP,
   DocumentCategory,
 } from "../types";
+
+interface DeletePermissionProfile {
+  role: string | null;
+  department_id: string | null;
+  status: string | null;
+}
 
 export const documentService = {
   async getDocuments(filters?: DocumentFilters): Promise<DocumentRow[]> {
@@ -77,6 +84,7 @@ export const documentService = {
       .from("documents")
       .insert([
         {
+          title: documentData.displayTitle,
           file_name: documentData.fileName,
           display_title: documentData.displayTitle,
           description: documentData.description,
@@ -107,6 +115,7 @@ export const documentService = {
   ): Promise<DocumentRow> {
     const supabase = await createClient();
     const updatePayload: Partial<{
+      title: string;
       display_title: string;
       description: string;
       category: string;
@@ -123,8 +132,10 @@ export const documentService = {
       content_hash: string | null;
     }> = {};
 
-    if (documentData.displayTitle !== undefined)
+    if (documentData.displayTitle !== undefined) {
+      updatePayload.title = documentData.displayTitle;
       updatePayload.display_title = documentData.displayTitle;
+    }
     if (documentData.description !== undefined)
       updatePayload.description = documentData.description;
     if (documentData.category !== undefined)
@@ -184,6 +195,54 @@ export const documentService = {
       .single();
     if (error) throw error;
     return data as DocumentRow;
+  },
+
+  async deleteDocument(id: string, userId: string): Promise<DocumentRow> {
+    const adminSupabase = createAdminClient();
+    const { data: document, error: documentError } = await adminSupabase
+      .from("documents")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (documentError) throw documentError;
+
+    const { data: profile, error: profileError } = await adminSupabase
+      .from("profiles")
+      .select("role, department_id, status")
+      .eq("id", userId)
+      .single<DeletePermissionProfile>();
+    if (profileError) throw profileError;
+
+    const canDelete =
+      profile.status === "ACTIVE" &&
+      (profile.role === "Super Admin" ||
+        profile.role === "Admin" ||
+        (profile.role === "Department Admin" &&
+          document.department_id === profile.department_id) ||
+        (profile.role === "Staff" &&
+          document.department_id === profile.department_id &&
+          document.uploaded_by === userId));
+
+    if (!canDelete) {
+      throw new Error("ไม่มีสิทธิ์ลบเอกสารนี้");
+    }
+
+    const { error: storageError } = await adminSupabase.storage
+      .from("documents")
+      .remove([document.storage_path]);
+    if (storageError) {
+      throw storageError;
+    }
+
+    const { data: deletedDocument, error: deleteError } = await adminSupabase
+      .from("documents")
+      .delete()
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (deleteError) throw deleteError;
+
+    return deletedDocument as DocumentRow;
   },
 
   async enableDocument(id: string): Promise<DocumentRow> {

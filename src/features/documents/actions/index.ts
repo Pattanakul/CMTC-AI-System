@@ -7,6 +7,42 @@ import { processUploadedDocument } from "../services/document-processing.service
 import { UploadFormSchema, UpdateDocumentSchema } from "../schemas";
 import type { DocumentCategory, DocumentFilters } from "../types";
 
+interface CurrentProfile {
+  role: string | null;
+  department_id: string | null;
+  status: string | null;
+}
+
+function getActionErrorMessage(
+  err: unknown,
+  fallback: string
+): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object") {
+    const errorLike = err as {
+      message?: unknown;
+      details?: unknown;
+      hint?: unknown;
+      code?: unknown;
+      error?: unknown;
+    };
+    const parts = [
+      errorLike.message,
+      errorLike.details,
+      errorLike.hint,
+      errorLike.code ? `code: ${String(errorLike.code)}` : undefined,
+    ]
+      .filter((part): part is string => typeof part === "string" && part.length > 0)
+      .join(" ");
+
+    if (parts) return parts;
+    if (typeof errorLike.error === "string") return errorLike.error;
+  }
+
+  return fallback;
+}
+
 // ─── Get Documents (Server Action) ──────────────────────────────────────────
 
 export async function getDocumentsAction(filters?: DocumentFilters) {
@@ -14,7 +50,10 @@ export async function getDocumentsAction(filters?: DocumentFilters) {
     const documents = await documentService.getDocuments(filters);
     return { data: documents, error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการโหลดเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการโหลดเอกสาร"
+    );
     return { data: null, error: message };
   }
 }
@@ -26,7 +65,7 @@ export async function getDocumentAction(id: string) {
     const document = await documentService.getDocumentById(id);
     return { data: document, error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "ไม่พบเอกสาร";
+    const message = getActionErrorMessage(err, "ไม่พบเอกสาร");
     return { data: null, error: message };
   }
 }
@@ -41,6 +80,16 @@ export async function uploadDocumentAction(formData: FormData) {
 
   if (!user) {
     return { data: null, error: "กรุณาเข้าสู่ระบบก่อนอัปโหลดเอกสาร" };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role, department_id, status")
+    .eq("id", user.id)
+    .single<CurrentProfile>();
+
+  if (profileError || profile?.status !== "ACTIVE") {
+    return { data: null, error: "บัญชีนี้ยังไม่มีสิทธิ์อัปโหลดเอกสาร" };
   }
 
   const rawData = {
@@ -65,6 +114,30 @@ export async function uploadDocumentAction(formData: FormData) {
 
   try {
     const category = parsed.data.category as DocumentCategory;
+    const isDepartmentScopedRole =
+      profile.role === "Staff" || profile.role === "Department Admin";
+    const requestedDepartmentId = rawData.departmentId as string | undefined;
+    const effectiveDepartmentId = isDepartmentScopedRole
+      ? profile.department_id
+      : requestedDepartmentId;
+
+    if (isDepartmentScopedRole && !effectiveDepartmentId) {
+      return {
+        data: null,
+        error: "บัญชีนี้ยังไม่ได้ผูกกับแผนก จึงไม่สามารถอัปโหลดเอกสารได้",
+      };
+    }
+
+    if (
+      isDepartmentScopedRole &&
+      requestedDepartmentId &&
+      requestedDepartmentId !== effectiveDepartmentId
+    ) {
+      return {
+        data: null,
+        error: "ไม่สามารถอัปโหลดเอกสารไปยังแผนกอื่นได้",
+      };
+    }
 
     console.info("[Document] Upload started", {
       fileName: file.name,
@@ -88,7 +161,7 @@ export async function uploadDocumentAction(formData: FormData) {
       fileName: file.name,
       displayTitle: parsed.data.displayTitle,
       description: parsed.data.description,
-      departmentId: rawData.departmentId as string | undefined,
+      departmentId: effectiveDepartmentId ?? undefined,
       category,
       keywords,
       tags,
@@ -112,7 +185,10 @@ export async function uploadDocumentAction(formData: FormData) {
     revalidatePath("/staff/documents");
     return { data: processedDocument, error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการอัปโหลดเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการอัปโหลดเอกสาร"
+    );
     return { data: null, error: message };
   }
 }
@@ -152,8 +228,10 @@ export async function reprocessDocumentAction(id: string) {
     revalidatePath(`/admin/documents/${id}`);
     return { data: processedDocument, error: null };
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการประมวลผลเอกสารใหม่";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการประมวลผลเอกสารใหม่"
+    );
     return { data: null, error: message };
   }
 }
@@ -216,7 +294,10 @@ export async function updateDocumentAction(id: string, formData: FormData) {
     revalidatePath(`/admin/documents/${id}`);
     return { data: document, error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการอัปเดตเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการอัปเดตเอกสาร"
+    );
     return { data: null, error: message };
   }
 }
@@ -229,7 +310,10 @@ export async function archiveDocumentAction(id: string) {
     revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการจัดเก็บเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการจัดเก็บเอกสาร"
+    );
     return { error: message };
   }
 }
@@ -242,7 +326,10 @@ export async function enableDocumentAction(id: string) {
     revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการเปิดใช้งานเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการเปิดใช้งานเอกสาร"
+    );
     return { error: message };
   }
 }
@@ -255,7 +342,36 @@ export async function disableDocumentAction(id: string) {
     revalidatePath("/admin/documents");
     return { error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการปิดใช้งานเอกสาร";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการปิดใช้งานเอกสาร"
+    );
+    return { error: message };
+  }
+}
+
+// ─── Delete Document (Server Action) ─────────────────────────────────────────
+
+export async function deleteDocumentAction(id: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "กรุณาเข้าสู่ระบบก่อน" };
+  }
+
+  try {
+    await documentService.deleteDocument(id, user.id);
+    revalidatePath("/admin/documents");
+    revalidatePath("/staff/documents");
+    return { error: null };
+  } catch (err) {
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการลบเอกสาร"
+    );
     return { error: message };
   }
 }
@@ -267,7 +383,10 @@ export async function getDownloadUrlAction(storagePath: string) {
     const url = await documentService.getSignedUrl(storagePath, 300); // 5 minute link
     return { data: url, error: null };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการดาวน์โหลดไฟล์";
+    const message = getActionErrorMessage(
+      err,
+      "เกิดข้อผิดพลาดในการดาวน์โหลดไฟล์"
+    );
     return { data: null, error: message };
   }
 }

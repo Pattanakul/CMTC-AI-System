@@ -8,6 +8,7 @@ import {
   archiveDocumentAction,
   enableDocumentAction,
   disableDocumentAction,
+  deleteDocumentAction,
   getDownloadUrlAction,
   reprocessDocumentAction,
 } from "../actions";
@@ -101,6 +102,18 @@ export function useDocumentActions() {
     return !result.error;
   };
 
+  const deleteDocument = async (id: string, title: string) => {
+    setLoadingId(id);
+    const result = await deleteDocumentAction(id);
+    setLoadingId(null);
+    if (result.error) {
+      toast.error("ลบเอกสารไม่สำเร็จ", { description: result.error });
+    } else {
+      toast.success("ลบเอกสารแล้ว", { description: `"${title}" ถูกลบออกจากระบบ` });
+    }
+    return !result.error;
+  };
+
   const downloadDocument = async (storagePath: string, fileName: string) => {
     setLoadingId(storagePath);
     const result = await getDownloadUrlAction(storagePath);
@@ -138,6 +151,7 @@ export function useDocumentActions() {
     archiveDocument,
     enableDocument,
     disableDocument,
+    deleteDocument,
     downloadDocument,
     reprocessDocument,
   };

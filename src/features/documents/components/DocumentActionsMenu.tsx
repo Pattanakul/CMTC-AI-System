@@ -21,7 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   MoreHorizontal,
   Eye,
@@ -30,6 +30,7 @@ import {
   Archive,
   Power,
   PowerOff,
+  Trash2,
   Loader2,
   RefreshCw,
 } from "lucide-react";
@@ -47,6 +48,7 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
     archiveDocument,
     enableDocument,
     disableDocument,
+    deleteDocument,
     downloadDocument,
     reprocessDocument,
   } =
@@ -54,6 +56,7 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
 
   const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
   const [disableDialogOpen, setDisableDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const isLoading =
     loadingId === document.id || loadingId === document.storage_path;
@@ -67,6 +70,12 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
   const handleDisable = async () => {
     await disableDocument(document.id, document.display_title);
     setDisableDialogOpen(false);
+    router.refresh();
+  };
+
+  const handleDelete = async () => {
+    await deleteDocument(document.id, document.display_title);
+    setDeleteDialogOpen(false);
     router.refresh();
   };
 
@@ -87,20 +96,20 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0"
-            disabled={isLoading}
-          >
+        <DropdownMenuTrigger
+          className={buttonVariants({
+            variant: "ghost",
+            size: "sm",
+            className: "h-8 w-8 p-0",
+          })}
+          disabled={isLoading}
+        >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <MoreHorizontal className="h-4 w-4" />
             )}
             <span className="sr-only">เปิดเมนู</span>
-          </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-48">
@@ -174,6 +183,16 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
               คืนสถานะใช้งาน
             </DropdownMenuItem>
           )}
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={() => setDeleteDialogOpen(true)}
+            className="text-red-600 focus:text-red-600"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            ลบเอกสาร
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -218,6 +237,29 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
               className="bg-red-600 hover:bg-red-700"
             >
               ปิดใช้งาน
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>ลบเอกสาร</AlertDialogTitle>
+            <AlertDialogDescription>
+              คุณต้องการลบเอกสาร{" "}
+              <span className="font-semibold">&quot;{document.display_title}&quot;</span>{" "}
+              หรือไม่? การลบจะนำข้อมูลเอกสารและไฟล์ต้นฉบับออกจากระบบ
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              ลบเอกสาร
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
