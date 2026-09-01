@@ -8,9 +8,9 @@ export function KnowledgeGaps({ gaps }: { gaps: any[] }) {
   return (
     <Card className="col-span-4 mt-6">
       <CardHeader>
-        <CardTitle>Knowledge Gap Analysis</CardTitle>
+        <CardTitle>การวิเคราะห์ช่องว่างทางความรู้</CardTitle>
         <CardDescription>
-          Recent user queries where the AI had low confidence (Score &lt; 0.7). Consider writing articles to address these topics.
+          คำถามล่าสุดที่ AI มีความมั่นใจต่ำ (คะแนน &lt; 0.7) โปรดพิจารณาเขียนบทความเพื่อตอบคำถามเหล่านี้
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -18,9 +18,9 @@ export function KnowledgeGaps({ gaps }: { gaps: any[] }) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User Question</TableHead>
-                <TableHead>AI Confidence</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>คำถามของผู้ใช้</TableHead>
+                <TableHead>ความมั่นใจของ AI</TableHead>
+                <TableHead>วันที่</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -42,7 +42,7 @@ export function KnowledgeGaps({ gaps }: { gaps: any[] }) {
               {gaps.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center text-muted-foreground h-24">
-                    No significant knowledge gaps identified recently. Great job!
+                    ไม่พบช่องว่างทางความรู้ที่สำคัญในช่วงนี้ เยี่ยมมาก!
                   </TableCell>
                 </TableRow>
               )}

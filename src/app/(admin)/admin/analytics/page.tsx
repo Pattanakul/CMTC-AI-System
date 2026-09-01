@@ -1,4 +1,4 @@
-สimport { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 import { MetricsCards } from '@/components/analytics/MetricsCards'
 import { UsageChart } from '@/components/analytics/UsageChart'
 import { KnowledgeGaps } from '@/components/analytics/KnowledgeGaps'
@@ -60,18 +60,24 @@ export default async function AnalyticsPage() {
   const gaps = aiData?.filter(item => item.confidence_score < 0.7).slice(0, 10) || []
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="p-6 md:p-8 max-w-7xl mx-auto">
+      {/* Breadcrumb */}
+      <div className="text-sm text-muted-foreground mb-4">
+        หน้าหลัก / สถิติการใช้งาน
+      </div>
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
-            Monitor knowledge base health and AI chat performance.
+          <h1 className="text-2xl font-bold text-slate-900">สถิติการใช้งาน</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            ตรวจสอบสถิติการใช้งานระบบฐานความรู้และประสิทธิภาพ AI Chat
           </p>
         </div>
         <Link href="/api/export/analytics">
           <Button variant="outline">
             <Download className="mr-2 h-4 w-4" />
-            Export to CSV
+            ส่งออก CSV
           </Button>
         </Link>
       </div>

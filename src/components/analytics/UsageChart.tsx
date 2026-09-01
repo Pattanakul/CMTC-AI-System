@@ -7,8 +7,8 @@ export function UsageChart({ data }: { data: any[] }) {
   return (
     <Card className="col-span-4">
       <CardHeader>
-        <CardTitle>AI Query Volume</CardTitle>
-        <CardDescription>Number of AI queries over the last 7 days</CardDescription>
+        <CardTitle>ปริมาณการถาม AI</CardTitle>
+        <CardDescription>จำนวนการถาม AI ในช่วง 7 วันที่ผ่านมา</CardDescription>
       </CardHeader>
       <CardContent className="pl-2">
         <div className="h-[300px] w-full">

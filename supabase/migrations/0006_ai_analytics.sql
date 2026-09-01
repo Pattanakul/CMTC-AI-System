@@ -21,3 +21,20 @@ CREATE TABLE IF NOT EXISTS public.ai_feedback (
   comment TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- 3. Enable RLS
+ALTER TABLE public.ai_analytics ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ai_feedback ENABLE ROW LEVEL SECURITY;
+
+-- 4. RLS Policies
+CREATE POLICY "Allow authenticated select ai_analytics" ON public.ai_analytics
+  FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "Allow authenticated insert ai_analytics" ON public.ai_analytics
+  FOR INSERT TO authenticated WITH CHECK (true);
+
+CREATE POLICY "Allow authenticated select ai_feedback" ON public.ai_feedback
+  FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "Allow authenticated insert ai_feedback" ON public.ai_feedback
+  FOR INSERT TO authenticated WITH CHECK (true);

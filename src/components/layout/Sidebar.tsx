@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, FileText, BookOpen, Users, ShieldCheck, LogOut, Building, History, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Users, ShieldCheck, LogOut, Building, History, Settings, BarChart } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 
 export function Sidebar() {
@@ -22,6 +22,7 @@ export function Sidebar() {
     { name: 'จัดการเอกสาร', href: '/admin/documents', icon: FileText },
     { name: 'จัดการบุคลากร', href: '/admin/users', icon: Users },
     { name: 'จัดการแผนก', href: '/admin/departments', icon: Building },
+    { name: 'สถิติการใช้งาน', href: '/admin/analytics', icon: BarChart },
     { name: 'ประวัติการใช้งาน', href: '/admin/history', icon: History },
     { name: 'ตั้งค่าระบบ', href: '/admin/settings', icon: Settings },
   ];
