@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Upload, FileText } from "lucide-react";
@@ -26,23 +27,24 @@ interface DocumentsPageProps {
   }>;
 }
 
-async function DocumentList({ filters }: { filters: DocumentFilters }) {
-  let documents: DocumentRow[] = [];
-  try {
-    documents = await documentService.getDocuments(filters);
-  } catch (err) {
-    console.error("Error fetching documents:", err);
-  }
-
-  return <DocumentTable documents={documents} />;
-}
-
 export default async function DocumentsPage({ searchParams }: DocumentsPageProps) {
   const params = await searchParams;
   
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: profile } = await supabase.from('profiles').select('department_id').eq('id', user?.id).single();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("department_id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profileError) {
+    console.error("Error fetching staff profile:", profileError);
+  }
 
   const filters: DocumentFilters = {
     search: params.search,
@@ -52,12 +54,11 @@ export default async function DocumentsPage({ searchParams }: DocumentsPageProps
     departmentId: profile?.department_id || params.departmentId,
   };
 
-  let totalCount = 0;
+  let documents: DocumentRow[] = [];
   try {
-    const docs = await documentService.getDocuments(filters);
-    totalCount = docs.length;
-  } catch {
-    // ignore
+    documents = await documentService.getDocuments(filters);
+  } catch (err) {
+    console.error("Error fetching documents:", err);
   }
 
   return (
@@ -75,7 +76,7 @@ export default async function DocumentsPage({ searchParams }: DocumentsPageProps
               </div>
               <p className="text-sm text-gray-500 ml-14">
                 บริหารจัดการเอกสารทั้งหมดในระบบ • พบ{" "}
-                <span className="font-semibold text-gray-700">{totalCount}</span> เอกสาร
+                <span className="font-semibold text-gray-700">{documents.length}</span> เอกสาร
               </p>
             </div>
             <Link href="/staff/documents/upload">
@@ -95,24 +96,7 @@ export default async function DocumentsPage({ searchParams }: DocumentsPageProps
         </div>
 
         {/* Document Table */}
-        <Suspense
-          fallback={
-            <div className="rounded-lg border border-gray-100 overflow-hidden shadow-sm">
-              <div className="h-12 bg-gray-50 border-b border-gray-100" />
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-16 border-b border-gray-50 px-6 flex items-center gap-4">
-                  <Skeleton className="h-4 w-48" />
-                  <Skeleton className="h-5 w-24 ml-auto" />
-                  <Skeleton className="h-5 w-16" />
-                  <Skeleton className="h-5 w-20" />
-                  <Skeleton className="h-8 w-8" />
-                </div>
-              ))}
-            </div>
-          }
-        >
-          <DocumentList filters={filters} />
-        </Suspense>
+        <DocumentTable documents={documents} basePath="/staff/documents" />
       </div>
     </div>
   );

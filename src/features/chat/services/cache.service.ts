@@ -1,10 +1,10 @@
-﻿import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 
 export const cacheService = {
   async searchCache(question: string) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const normalized = question.toLowerCase().trim();
-    
+
     const { data, error } = await supabase
       .from('ai_cache')
       .select('*')
@@ -18,18 +18,17 @@ export const cacheService = {
   },
 
   async saveCache(question: string, answer: string, confidence: number) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const normalized = question.toLowerCase().trim();
-    
-    // Check if exists to update usage_count
+
     const existing = await this.searchCache(question);
-    
+
     if (existing) {
       await supabase
         .from('ai_cache')
-        .update({ 
+        .update({
           usage_count: existing.usage_count + 1,
-          last_used: new Date().toISOString()
+          last_used: new Date().toISOString(),
         })
         .eq('id', existing.id);
     } else {
@@ -39,8 +38,8 @@ export const cacheService = {
           question,
           normalized_question: normalized,
           answer,
-          confidence_score: confidence
+          confidence_score: confidence,
         }]);
     }
-  }
+  },
 };

@@ -49,6 +49,7 @@ import {
 interface DocumentDetailCardProps {
   document: DocumentRow;
   departmentName?: string;
+  basePath?: string;
 }
 
 function formatFileSize(bytes: number): string {
@@ -75,6 +76,7 @@ function formatDate(dateStr?: string): string {
 export function DocumentDetailCard({
   document,
   departmentName,
+  basePath = "/admin/documents",
 }: DocumentDetailCardProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
@@ -224,7 +226,7 @@ export function DocumentDetailCard({
               ดาวน์โหลด
             </Button>
 
-            <Link href={`/documents/${document.id}/edit`}>
+            <Link href={`${basePath}/${document.id}/edit`}>
               <Button variant="outline" size="sm" className="gap-2">
                 <Pencil className="h-4 w-4" />
                 แก้ไข

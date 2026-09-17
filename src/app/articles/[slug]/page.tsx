@@ -5,14 +5,15 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const supabase = await createClient()
 
   // Fetch the article
   const { data: article } = await supabase
     .from('knowledge_articles')
     .select('*, categories(name), profiles:author_id(first_name, last_name)')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .single()
 
   if (!article) {

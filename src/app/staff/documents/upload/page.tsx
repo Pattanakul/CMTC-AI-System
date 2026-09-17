@@ -9,22 +9,45 @@ export const metadata: Metadata = {
   description: "อัปโหลดเอกสารใหม่เข้าสู่ระบบ CMTC AI Knowledge Management System",
 };
 
-async function getDepartments() {
+async function getStaffDepartment() {
   try {
     const supabase = await createClient();
-    // For staff, maybe we only need their department, but let's just pass all so the form can use them
-    const { data } = await supabase
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { departments: [], initialDepartmentId: "" };
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("department_id")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile?.department_id) {
+      return { departments: [], initialDepartmentId: "" };
+    }
+
+    const { data: department } = await supabase
       .from("departments")
       .select("id, name")
-      .order("name");
-    return (data ?? []) as Array<{ id: string; name: string }>;
+      .eq("id", profile.department_id)
+      .single();
+
+    return {
+      departments: department ? [department] as Array<{ id: string; name: string }> : [],
+      initialDepartmentId: profile.department_id,
+    };
   } catch {
-    return [];
+    return { departments: [], initialDepartmentId: "" };
   }
 }
 
 export default async function UploadDocumentPage() {
-  const departments = await getDepartments();
+  const { departments, initialDepartmentId } = await getStaffDepartment();
 
   return (
     <div className="min-h-screen bg-gray-50/30">
@@ -54,7 +77,11 @@ export default async function UploadDocumentPage() {
         </div>
 
         {/* Upload Form */}
-        <DocumentUploadForm departments={departments} />
+        <DocumentUploadForm
+          departments={departments}
+          initialDepartmentId={initialDepartmentId}
+          returnPath="/staff/documents"
+        />
       </div>
     </div>
   );

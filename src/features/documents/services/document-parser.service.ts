@@ -21,6 +21,78 @@ export class UnsupportedDocumentTypeError extends Error {
   }
 }
 
+function ensurePdfParseDomPolyfills() {
+  const globals = globalThis as unknown as Record<string, unknown>;
+
+  if (!globals.DOMMatrix) {
+    globals.DOMMatrix = class BasicDOMMatrix {
+      a = 1;
+      b = 0;
+      c = 0;
+      d = 1;
+      e = 0;
+      f = 0;
+
+      constructor(init?: unknown) {
+        if (Array.isArray(init)) {
+          [this.a, this.b, this.c, this.d, this.e, this.f] = init
+            .slice(0, 6)
+            .map((value) => Number(value));
+        }
+      }
+
+      multiplySelf() {
+        return this;
+      }
+
+      preMultiplySelf() {
+        return this;
+      }
+
+      translate() {
+        return this;
+      }
+
+      scale() {
+        return this;
+      }
+
+      invertSelf() {
+        return this;
+      }
+    };
+  }
+
+  if (!globals.ImageData) {
+    globals.ImageData = class BasicImageData {
+      data: Uint8ClampedArray;
+      width: number;
+      height: number;
+
+      constructor(dataOrWidth: Uint8ClampedArray | number, width?: number, height?: number) {
+        if (typeof dataOrWidth === "number") {
+          this.width = dataOrWidth;
+          this.height = width ?? 0;
+          this.data = new Uint8ClampedArray(this.width * this.height * 4);
+          return;
+        }
+
+        this.data = dataOrWidth;
+        this.width = width ?? 0;
+        this.height = height ?? 0;
+      }
+    };
+  }
+
+  if (!globals.Path2D) {
+    globals.Path2D = class BasicPath2D {
+      addPath() {
+        return undefined;
+      }
+    };
+  }
+}
+
 function normalizeFileType(fileName: string, fileType: string): string {
   const type = fileType.toLowerCase();
   if (type) return type.replace(/^\./, "");
@@ -28,6 +100,7 @@ function normalizeFileType(fileName: string, fileType: string): string {
 }
 
 async function parsePdf(input: ParseDocumentInput): Promise<string> {
+  ensurePdfParseDomPolyfills();
   const { PDFParse } = await import("pdf-parse");
   const parser = new PDFParse({ data: new Uint8Array(input.buffer) });
 

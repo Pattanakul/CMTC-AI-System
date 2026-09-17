@@ -1,8 +1,8 @@
 export const n8nService = {
   async triggerArticlePublished(articleId: string, title: string, authorId: string) {
-    const webhookUrl = process.env.N8N_ARTICLE_PUBLISHED_WEBHOOK_URL;
+    const webhookUrl = process.env.N8N_ARTICLE_PUBLISHED_WEBHOOK_URL || process.env.N8N_WEBHOOK_URL;
     if (!webhookUrl) {
-      console.warn('N8N_ARTICLE_PUBLISHED_WEBHOOK_URL is not configured. Skipping webhook.');
+      console.warn('n8n article webhook URL is not configured. Skipping webhook.');
       return;
     }
 
@@ -31,9 +31,9 @@ export const n8nService = {
   },
 
   async triggerAIProcessingQueue(text: string, title: string) {
-    const webhookUrl = process.env.N8N_AI_PROCESSING_WEBHOOK_URL;
+    const webhookUrl = process.env.N8N_AI_PROCESSING_WEBHOOK_URL || process.env.N8N_WEBHOOK_URL;
     if (!webhookUrl) {
-      console.warn('N8N_AI_PROCESSING_WEBHOOK_URL is not configured. Skipping processing queue.');
+      console.warn('n8n AI processing webhook URL is not configured. Skipping processing queue.');
       return { success: false, error: 'Webhook URL not configured' };
     }
 
@@ -57,9 +57,10 @@ export const n8nService = {
       }
 
       return { success: true };
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error sending to AI processing queue:', error);
-      return { success: false, error: error.message };
+      const message = error instanceof Error ? error.message : 'Unknown n8n error';
+      return { success: false, error: message };
     }
   }
 };

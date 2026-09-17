@@ -39,9 +39,13 @@ import { useDocumentActions } from "@/features/documents/hooks";
 
 interface DocumentActionsMenuProps {
   document: DocumentRow;
+  basePath?: string;
 }
 
-export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
+export function DocumentActionsMenu({
+  document,
+  basePath = "/admin/documents",
+}: DocumentActionsMenuProps) {
   const router = useRouter();
   const {
     loadingId,
@@ -119,14 +123,14 @@ export function DocumentActionsMenu({ document }: DocumentActionsMenuProps) {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => router.push(`/documents/${document.id}`)}
+            onClick={() => router.push(`${basePath}/${document.id}`)}
           >
             <Eye className="h-4 w-4 mr-2" />
             ดูรายละเอียด
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/documents/${document.id}/edit`)}
+            onClick={() => router.push(`${basePath}/${document.id}/edit`)}
           >
             <Pencil className="h-4 w-4 mr-2" />
             แก้ไขข้อมูล

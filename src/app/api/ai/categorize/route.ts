@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { llmService } from '@/features/ai/services/llm.service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,26 +14,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 });
     }
 
-    const categoryNames = existingCategories.map((c: any) => c.name).join(', ');
+    const categoryNames = existingCategories
+      .map((category: { name: string }) => category.name)
+      .join(', ');
 
-    const { object } = await generateObject({
-      model: openai('gpt-4o-mini'),
-      schema: z.object({
-        suggestedCategory: z.string().describe('The best matching category from the provided list, or a new one if none fit.'),
-        suggestedSummary: z.string().describe('A concise 1-2 sentence summary of the text.'),
-      }),
-      prompt: `Analyze the following article text and suggest a category and a short summary.
-      
-      Available Categories: ${categoryNames || 'None yet'}
-      
-      Article Text:
-      ${text}
-      `,
+    const object = await llmService.suggestArticleCategory({
+      text,
+      categoryNames,
     });
 
     return NextResponse.json(object);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Categorize API error:', error);
-    return NextResponse.json({ error: error.message || 'AI processing failed' }, { status: 500 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'AI processing failed' },
+      { status: 500 }
+    );
   }
 }

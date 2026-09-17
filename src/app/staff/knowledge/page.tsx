@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical, Plus } from "lucide-react";
+import { KnowledgeActionsMenu } from "@/features/knowledge/components/KnowledgeActionsMenu";
+import type { KnowledgeArticleListItem } from "@/features/knowledge/types";
+import { Plus } from "lucide-react";
 
 export default async function KnowledgePage({
   searchParams,
@@ -18,24 +19,19 @@ export default async function KnowledgePage({
   
   const params = await searchParams;
   
-  let articles: any[] = [];
+  let articles: KnowledgeArticleListItem[] = [];
   try {
     if (!supabase) {
       console.error("Supabase client is missing!");
     }
-    articles = await knowledgeService.getArticles({
+    articles = (await knowledgeService.getArticles({
       search: params.search,
       categoryId: params.categoryId,
       departmentId: profile?.department_id, // <== เพิ่มการกรองแผนกตรงนี้
       isPublish: params.isPublish === 'true' ? true : params.isPublish === 'false' ? false : undefined,
-    }, supabase) || [];
-  } catch (error: any) {
-    console.error("Error fetching articles details:", {
-      message: error?.message || "No message",
-      code: error?.code || "No code",
-      details: error?.details || "No details",
-      raw: error
-    });
+    }, supabase) || []) as KnowledgeArticleListItem[];
+  } catch (error) {
+    console.error("Error fetching articles details:", error);
   }
 
   return (
@@ -73,7 +69,7 @@ export default async function KnowledgePage({
           </TableHeader>
           <TableBody>
             {articles && articles.length > 0 ? (
-                articles.map((article: any, index: number) => (
+                articles.map((article, index) => (
                 <TableRow key={article.id}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell className="font-medium">{article.title}</TableCell>
@@ -85,20 +81,7 @@ export default async function KnowledgePage({
                     </TableCell>
                     <TableCell>{article.updated_at ? new Date(article.updated_at).toLocaleDateString('th-TH') : '-'}</TableCell>
                     <TableCell>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="h-4 w-4" />
-                        </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                        <DropdownMenuItem>ดูข้อมูล</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => window.location.href = `/staff/knowledge/${article.id}/edit`}>
-                            แก้ไข
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>ลบข้อมูล</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <KnowledgeActionsMenu articleId={article.id} basePath="/staff/knowledge" />
                     </TableCell>
                 </TableRow>
                 ))

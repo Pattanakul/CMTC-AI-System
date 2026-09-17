@@ -54,11 +54,13 @@ type EditFormValues = z.infer<typeof EditFormSchema>;
 interface DocumentEditFormProps {
   document: DocumentRow;
   departments?: Array<{ id: string; name: string }>;
+  basePath?: string;
 }
 
 export function DocumentEditForm({
   document,
   departments = [],
+  basePath = "/admin/documents",
 }: DocumentEditFormProps) {
   const router = useRouter();
 
@@ -95,7 +97,7 @@ export function DocumentEditForm({
       toast.error("บันทึกไม่สำเร็จ", { description: result.error });
     } else {
       toast.success("บันทึกการเปลี่ยนแปลงสำเร็จ");
-      router.push(`/documents/${document.id}`);
+      router.push(`${basePath}/${document.id}`);
     }
   };
 

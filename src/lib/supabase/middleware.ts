@@ -1,16 +1,41 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const PUBLIC_PATHS = new Set(['/', '/login', '/register'])
+
+function normalizeRole(role: string | null | undefined) {
+  return role?.trim().toLowerCase().replace(/[_\s-]+/g, ' ') ?? ''
+}
+
+function isAdminRole(role: string | null | undefined) {
+  const normalizedRole = normalizeRole(role)
+  return normalizedRole === 'super admin' || normalizedRole === 'admin'
+}
+
+function isStaffRole(role: string | null | undefined) {
+  const normalizedRole = normalizeRole(role)
+  return (
+    normalizedRole === 'department admin' ||
+    normalizedRole === 'teacher' ||
+    normalizedRole === 'staff'
+  )
+}
+
+function clearAuthCookies(request: NextRequest, response: NextResponse) {
+  request.cookies.getAll().forEach(({ name }) => {
+    if (name.startsWith('sb-') && name.includes('-auth-token')) {
+      request.cookies.delete(name)
+      response.cookies.delete(name)
+    }
+  })
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   // Public routes — skip auth check entirely
   const pathname = request.nextUrl.pathname
-  if (
-    pathname === '/' ||
-    pathname === '/login' ||
-    pathname === '/register'
-  ) {
+  if (PUBLIC_PATHS.has(pathname)) {
     return supabaseResponse
   }
 
@@ -33,7 +58,12 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser().catch(() => {
+    clearAuthCookies(request, supabaseResponse)
+    return { data: { user: null } }
+  })
 
   // Public paths
   if (pathname === '/') {
@@ -45,7 +75,7 @@ export async function updateSession(request: NextRequest) {
             .eq('id', user.id)
             .single();
 
-        if (profile?.role === 'Super Admin' || profile?.role === 'Admin') {
+        if (isAdminRole(profile?.role)) {
             return NextResponse.redirect(new URL('/admin/dashboard', request.url))
         } else if (profile?.role) {
             return NextResponse.redirect(new URL('/staff/dashboard', request.url))
@@ -63,8 +93,8 @@ export async function updateSession(request: NextRequest) {
       .single();
 
     const role = profile?.role;
-    const isAdmin = role === 'Super Admin' || role === 'Admin';
-    const isStaff = role === 'Department Admin' || role === 'Teacher' || role === 'Staff';
+    const isAdmin = isAdminRole(role);
+    const isStaff = isStaffRole(role);
 
     // Protect Admin routes
     if (pathname.startsWith('/admin')) {
@@ -81,10 +111,11 @@ export async function updateSession(request: NextRequest) {
   } else {
     // Not logged in and not at root
     if (pathname !== '/' && !pathname.startsWith('/_next') && pathname !== '/favicon.ico') {
-      return NextResponse.redirect(new URL('/', request.url))
+      const redirectResponse = NextResponse.redirect(new URL('/', request.url))
+      clearAuthCookies(request, redirectResponse)
+      return redirectResponse
     }
   }
 
   return supabaseResponse
 }
-

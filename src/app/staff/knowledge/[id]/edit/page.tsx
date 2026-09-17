@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { use, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateArticleSchema, type UpdateArticle } from "@/features/knowledge/schemas";
@@ -12,9 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { knowledgeService } from "@/features/knowledge/services/knowledge.service";
 import { categoryService } from "@/features/knowledge/services/category.service";
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
 
-export default function EditArticlePage({ params }: { params: { id: string } }) {
+export default function EditArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([]);
@@ -29,7 +29,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
     // Fetch article data
     const fetchArticleAndCategories = async () => {
       try {
-        const article = await knowledgeService.getArticleById(params.id);
+        const article = await knowledgeService.getArticleById(id);
         
         // Fetch categories for this department
         if (article.department_id) {
@@ -45,21 +45,21 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
           departmentId: article.department_id || undefined,
           isPublish: article.is_publish
         });
-      } catch (err) {
+      } catch {
         toast.error("Failed to load article");
       } finally {
         setLoading(false);
       }
     };
     fetchArticleAndCategories();
-  }, [params.id, reset]);
+  }, [id, reset]);
 
   const onSubmit = async (data: UpdateArticle) => {
     try {
-      await knowledgeService.updateArticle(params.id, data);
+      await knowledgeService.updateArticle(id, data);
       toast.success("Article updated successfully");
       router.push("/staff/knowledge");
-    } catch (err) {
+    } catch {
       toast.error("Failed to update article");
     }
   };
@@ -89,7 +89,8 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
 
         <div>
           <Label>หมวดหมู่</Label>
-          <Select value={watch("categoryId")} onValueChange={(v) => setValue("categoryId", v)}>
+          <Select value={watch("categoryId") ?? ""} onValueChange={(v) => setValue("categoryId", v ?? "")}>
+
             <SelectTrigger><SelectValue placeholder="เลือกหมวดหมู่" /></SelectTrigger>
             <SelectContent>
               {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}

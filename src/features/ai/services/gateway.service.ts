@@ -2,8 +2,8 @@ import { createClient } from '@/utils/supabase/server';
 
 export const aiGateway = {
   async processQuestion(question: string, userId: string, departmentId: string, conversationId: string) {
-    const url = process.env.N8N_API_URL;
-    if (!url) throw new Error('N8N_API_URL not configured');
+    const url = process.env.N8N_API_URL || process.env.N8N_WEBHOOK_URL;
+    if (!url) throw new Error('n8n URL not configured');
 
     const startTime = Date.now();
     

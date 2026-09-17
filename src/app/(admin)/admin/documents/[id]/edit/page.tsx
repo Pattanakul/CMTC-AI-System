@@ -63,7 +63,7 @@ export default async function EditDocumentPage({ params }: EditDocumentPageProps
           </Link>
           <span>/</span>
           <Link
-            href={`/documents/${id}`}
+            href={`/admin/documents/${id}`}
             className="hover:text-gray-700 transition-colors line-clamp-1 max-w-[200px]"
           >
             {document.display_title}
@@ -86,7 +86,11 @@ export default async function EditDocumentPage({ params }: EditDocumentPageProps
         </div>
 
         {/* Edit Form */}
-        <DocumentEditForm document={document} departments={departments} />
+        <DocumentEditForm
+          document={document}
+          departments={departments}
+          basePath="/admin/documents"
+        />
       </div>
     </div>
   );

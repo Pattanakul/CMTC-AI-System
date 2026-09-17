@@ -1,9 +1,9 @@
-﻿import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { ChatMessage } from '../types';
 
 export const conversationService = {
   async createConversation(userId: string, title?: string) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('conversations')
       .insert([{ user_id: userId, title }])
@@ -14,7 +14,7 @@ export const conversationService = {
   },
 
   async getMessages(conversationId: string) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('chat_messages')
       .select('*')
@@ -25,7 +25,7 @@ export const conversationService = {
   },
 
   async saveMessage(message: ChatMessage) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('chat_messages')
       .insert([{
@@ -33,11 +33,11 @@ export const conversationService = {
         role: message.role,
         content: message.content,
         sources: message.sources,
-        confidence_score: message.confidenceScore
+        confidence_score: message.confidenceScore,
       }])
       .select()
       .single();
     if (error) throw error;
     return data;
-  }
+  },
 };

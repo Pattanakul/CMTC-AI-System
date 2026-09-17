@@ -20,6 +20,7 @@ import { DocumentActionsMenu } from "./DocumentActionsMenu";
 interface DocumentTableProps {
   documents: DocumentRow[];
   isLoading?: boolean;
+  basePath?: string;
 }
 
 function formatFileSize(bytes: number): string {
@@ -41,7 +42,11 @@ function formatDate(dateStr?: string): string {
   }
 }
 
-export function DocumentTable({ documents, isLoading = false }: DocumentTableProps) {
+export function DocumentTable({
+  documents,
+  isLoading = false,
+  basePath = "/admin/documents",
+}: DocumentTableProps) {
   if (isLoading) {
     return (
       <div className="rounded-lg border border-gray-100 overflow-hidden">
@@ -132,7 +137,7 @@ export function DocumentTable({ documents, isLoading = false }: DocumentTablePro
               <TableCell>
                 <div className="flex flex-col gap-0.5">
                   <Link
-                    href={`/documents/${doc.id}`}
+                    href={`${basePath}/${doc.id}`}
                     className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors line-clamp-1"
                   >
                     {doc.display_title}
@@ -207,7 +212,7 @@ export function DocumentTable({ documents, isLoading = false }: DocumentTablePro
 
               {/* Actions */}
               <TableCell>
-                <DocumentActionsMenu document={doc} />
+                <DocumentActionsMenu document={doc} basePath={basePath} />
               </TableCell>
             </TableRow>
           ))}

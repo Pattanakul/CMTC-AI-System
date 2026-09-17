@@ -58,12 +58,12 @@ export function CreateDepartmentDialog({ onCreate }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={
+      <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="w-4 h-4" />
           เพิ่มแผนกใหม่
         </Button>
-      } />
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>เพิ่มแผนกใหม่</DialogTitle>

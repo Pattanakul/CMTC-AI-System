@@ -33,9 +33,15 @@ import { uploadDocumentAction } from "@/features/documents/actions";
 
 interface DocumentUploadFormProps {
   departments?: Array<{ id: string; name: string }>;
+  initialDepartmentId?: string;
+  returnPath?: string;
 }
 
-export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps) {
+export function DocumentUploadForm({
+  departments = [],
+  initialDepartmentId = "",
+  returnPath = "/admin/documents",
+}: DocumentUploadFormProps) {
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadStatuses, setUploadStatuses] = useState<
@@ -53,7 +59,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
       keywords: "",
       tags: "",
       language: "th",
-      departmentId: "",
+      departmentId: initialDepartmentId,
     },
   });
 
@@ -118,7 +124,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
       toast.success(`อัปโหลดสำเร็จ ${successCount}/${selectedFiles.length} ไฟล์`, {
         description: "เอกสารถูกบันทึกเข้าระบบแล้ว",
       });
-      setTimeout(() => router.push("/admin/documents"), 1500);
+      setTimeout(() => router.push(returnPath), 1500);
     }
   };
 
@@ -329,7 +335,7 @@ export function DocumentUploadForm({ departments = [] }: DocumentUploadFormProps
           <Button
             type="button"
             variant="ghost"
-            onClick={() => router.push("/admin/documents")}
+            onClick={() => router.push(returnPath)}
             disabled={isSubmitting}
             className="gap-2"
           >

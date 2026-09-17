@@ -1,19 +1,26 @@
-﻿import { ChatWindow } from '@/components/chat/ChatWindow';
+import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import { conversationService } from '@/features/chat/services/conversation.service';
+
+function isAdminRole(role: string | null | undefined) {
+  const normalizedRole = role?.trim().toLowerCase().replace(/[_\s-]+/g, ' ') ?? '';
+  return normalizedRole === 'super admin' || normalizedRole === 'admin';
+}
 
 export default async function ChatPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return <div>Unauthorized</div>;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // Create a new conversation for this session
-  const conversation = await conversationService.createConversation(user.id, 'New Chat');
+  if (!user) {
+    redirect('/login');
+  }
 
-  return (
-    <div className='p-6'>
-      <h1 className='text-2xl font-bold mb-4'>AI Chatbot</h1>
-      <ChatWindow conversationId={conversation.id} />
-    </div>
-  );
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  redirect(isAdminRole(profile?.role) ? '/admin/chat' : '/staff/chat');
 }

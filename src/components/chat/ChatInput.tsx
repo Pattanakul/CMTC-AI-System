@@ -7,8 +7,19 @@ export function ChatInput({ onSend, disabled }: { onSend: (c: string) => void, d
   const [value, setValue] = useState('');
   return (
     <div className='flex gap-2'>
-      <Input value={value} onChange={e => setValue(e.target.value)} disabled={disabled} />
-      <Button onClick={() => { onSend(value); setValue(''); }} disabled={disabled || !value}>Send</Button>      
+      <Input
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === 'Enter' && value.trim() && !disabled) {
+            onSend(value.trim());
+            setValue('');
+          }
+        }}
+        placeholder="พิมพ์คำถาม..."
+        disabled={disabled}
+      />
+      <Button onClick={() => { onSend(value.trim()); setValue(''); }} disabled={disabled || !value.trim()}>ส่ง</Button>      
     </div>
   );
 }

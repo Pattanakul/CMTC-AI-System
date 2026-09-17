@@ -1,0 +1,153 @@
+{"kind":"deck","id":"pr/dm6zen","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"null"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"DEFAULT"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"MASTER","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"1002"}]}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"แบบฟอร์มนำเสนอ","textShapes":4}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"Shape 0","bbox":[0,0,1279.97,720]}
+{"kind":"shape","id":"sh/k3yl0zql","slide":1,"name":"Shape 1","bbox":[835.2,-96,537.6,537.6]}
+{"kind":"shape","id":"sh/7qp4be9c","slide":1,"name":"Shape 2","bbox":[912,326.4,403.2,403.2]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"Text 3","text":"แบบฟอร์มนำเสนอ\nผลการดำเนินงานโครงการ 1","textPreview":"แบบฟอร์มนำเสนอ | ผลการดำเนินงานโครงการ 1","textChars":38,"textLines":2,"bbox":[69.12,110.4,787.2,139.2]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"name":"Text 4","text":"สำหรับนักศึกษาที่มีความก้าวหน้าไม่น้อยกว่า 75%","textPreview":"สำหรับนักศึกษาที่มีความก้าวหน้าไม่น้อยกว่า 75%","textChars":46,"textLines":1,"bbox":[72.96,270.72,739.2,43.2]}
+{"kind":"shape","id":"sh/sryl4zqx","slide":1,"name":"Shape 5","bbox":[72,339.84,662.4,139.2]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"Text 6","text":"ชื่อโครงงาน : [กรอกชื่อโครงงาน]\nผู้จัดทำ : [ชื่อ–สกุล / รหัสนักศึกษา]\nอาจารย์ที่ปรึกษา : [ชื่ออาจารย์]","textPreview":"ชื่อโครงงาน : [กรอกชื่อโครงงาน] | ผู้จัดทำ : [ชื่อ–สกุล / รหัสนักศึกษา] | อาจารย์ที่ปรึกษา : [ชื่ออาจารย์]","textChars":102,"textLines":3,"bbox":[97.92,362.88,609.6,94.08]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"Text 7","text":"การประเมินปลายภาค “โครงการ 1” | ผลงานสมบูรณ์ 100% และการสอบจบ นำเสนอในภาคเรียนถัดไป","textPreview":"การประเมินปลายภาค “โครงการ 1” | ผลงานสมบูรณ์ 100% และการสอบจบ นำเสนอในภาคเรียนถัดไป","textChars":83,"textLines":1,"bbox":[74.88,631.68,1123.2,40.32]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":""}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"1. ปัญหา ที่มา และเป้าหมายของโครงงาน","textShapes":11}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"name":"Text 0","text":"1. ปัญหา ที่มา และเป้าหมายของโครงงาน","textPreview":"1. ปัญหา ที่มา และเป้าหมายของโครงงาน","textChars":36,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"name":"Text 1","text":"ทบทวนให้กรรมการเข้าใจว่า “ทำอะไร – เพื่อใคร – แก้ปัญหาอะไร” ภายใน 1 นาที","textPreview":"ทบทวนให้กรรมการเข้าใจว่า “ทำอะไร – เพื่อใคร – แก้ปัญหาอะไร” ภายใน 1 นาที","textChars":72,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/b29kza94","slide":2,"name":"Shape 2","bbox":[62.4,148.8,369.6,192]}
+{"kind":"shape","id":"sh/a10jqpsj","slide":2,"name":"Shape 3","bbox":[62.4,148.8,7.68,192]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"name":"Text 4","text":"ปัญหา / ความจำเป็น","textPreview":"ปัญหา / ความจำเป็น","textChars":18,"textLines":1,"bbox":[83.52,163.2,333.12,32.64]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"Text 5","text":"[อธิบายสถานการณ์หรือปัญหาที่พบจริง]\n[ระบุกลุ่มผู้ใช้หรือหน่วยงานเป้าหมาย]","textPreview":"[อธิบายสถานการณ์หรือปัญหาที่พบจริง] | [ระบุกลุ่มผู้ใช้หรือหน่วยงานเป้าหมาย]","textChars":73,"textLines":2,"bbox":[83.52,204.48,331.2,120.96]}
+{"kind":"shape","id":"sh/r65knqtk","slide":2,"name":"Shape 6","bbox":[456,148.8,369.6,192]}
+{"kind":"shape","id":"sh/q5wjelsz","slide":2,"name":"Shape 7","bbox":[456,148.8,7.68,192]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"Text 8","text":"วัตถุประสงค์","textPreview":"วัตถุประสงค์","textChars":12,"textLines":1,"bbox":[477.12,163.2,333.12,32.64]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"Text 9","text":"1) [วัตถุประสงค์ข้อ 1]\n2) [วัตถุประสงค์ข้อ 2]\n3) [ถ้ามี]","textPreview":"1) [วัตถุประสงค์ข้อ 1] | 2) [วัตถุประสงค์ข้อ 2] | 3) [ถ้ามี]","textChars":56,"textLines":3,"bbox":[477.12,204.48,331.2,120.96]}
+{"kind":"shape","id":"sh/mtwrmxg7","slide":2,"name":"Shape 10","bbox":[849.6,148.8,369.6,192]}
+{"kind":"shape","id":"sh/nu58f2hs","slide":2,"name":"Shape 11","bbox":[849.6,148.8,7.68,192]}
+{"kind":"textbox","id":"sh/wjy9sry9","slide":2,"name":"Text 12","text":"ขอบเขตงาน","textPreview":"ขอบเขตงาน","textChars":9,"textLines":1,"bbox":[870.72,163.2,333.12,32.64]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"Text 13","text":"[ฟังก์ชัน/ชิ้นส่วน/โมดูลหลัก]\n[สิ่งที่อยู่ในขอบเขตของโครงการ 1]","textPreview":"[ฟังก์ชัน/ชิ้นส่วน/โมดูลหลัก] | [สิ่งที่อยู่ในขอบเขตของโครงการ 1]","textChars":63,"textLines":2,"bbox":[870.72,204.48,331.2,120.96]}
+{"kind":"shape","id":"sh/ahwrqhgj","slide":2,"name":"Shape 14","bbox":[62.4,388.8,1156.8,107.52]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"name":"Text 15","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[79.68,400.32,120,24]}
+{"kind":"textbox","id":"sh/cnupgny5","slide":2,"name":"Text 16","text":"ใช้ข้อความสั้น กระชับ ไม่คัดลอกบทที่ 1 มาวางทั้งหน้า และควรมีภาพปัญหาหรือภาพบริบทจริง 1 ภาพหากมี","textPreview":"ใช้ข้อความสั้น กระชับ ไม่คัดลอกบทที่ 1 มาวางทั้งหน้า และควรมีภาพปัญหาหรือภาพบริบทจริง 1 ภาพหากมี","textChars":96,"textLines":1,"bbox":[182.4,398.4,1020.48,90.24]}
+{"kind":"textbox","id":"sh/gbmxszmt","slide":2,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":""}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"2. สรุปความก้าวหน้าปัจจุบัน","textShapes":7}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"name":"Text 0","text":"2. สรุปความก้าวหน้าปัจจุบัน","textPreview":"2. สรุปความก้าวหน้าปัจจุบัน","textChars":27,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"name":"Text 1","text":"แสดงสถานะจริง ณ วันสอบ ไม่จำเป็นต้องครบ 100% แต่ต้องไม่น้อยกว่า 75% และมีหลักฐานตรวจสอบ","textPreview":"แสดงสถานะจริง ณ วันสอบ ไม่จำเป็นต้องครบ 100% แต่ต้องไม่น้อยกว่า 75% และมีหลักฐานตรวจสอบ","textChars":87,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"textbox","id":"sh/298ryl4v","slide":3,"name":"Text 2","text":"ความก้าวหน้ารวม","textPreview":"ความก้าวหน้ารวม","textChars":15,"textLines":1,"bbox":[67.2,148.8,211.2,32.64]}
+{"kind":"shape","id":"sh/3ah8rqlg","slide":3,"name":"Shape 3","bbox":[69.12,193.92,1134.72,44.16]}
+{"kind":"shape","id":"sh/obq90bml","slide":3,"name":"Shape 4","bbox":[69.12,193.92,908.16,44.16]}
+{"kind":"textbox","id":"sh/pcjqtg36","slide":3,"name":"Text 5","text":"[80%]","textPreview":"[80%]","textChars":5,"textLines":1,"bbox":[1012.8,190.08,163.2,48]}
+{"kind":"shape","id":"sh/n6ls3alk","slide":3,"name":"Shape 6","bbox":[69.12,545.28,1134.72,78.72]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"name":"Text 7","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[86.4,556.8,120,24]}
+{"kind":"textbox","id":"sh/m1c3mlsn","slide":3,"name":"Text 8","text":"เปอร์เซ็นต์ต้องสัมพันธ์กับงานที่ทำจริง ห้ามใส่ 90–100% หากยังไม่มีหลักฐานหรือยังไม่สามารถสาธิตส่วนสำคัญได้","textPreview":"เปอร์เซ็นต์ต้องสัมพันธ์กับงานที่ทำจริง ห้ามใส่ 90–100% หากยังไม่มีหลักฐานหรือยังไม่สามารถสาธิตส่วนสำคัญได้","textChars":106,"textLines":1,"bbox":[189.12,554.88,998.4,61.44]}
+{"kind":"textbox","id":"sh/re9g7yxo","slide":3,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"table","id":"tb/j6ps72lo","slide":3,"name":"Table 0","rows":5,"cols":3,"preview":"งาน/โมดูล | สถานะ | หลักฐาน","bbox":[69.12,270.72,1134.72,254.4]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":""}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"3. การออกแบบและวิธีดำเนินงาน","textShapes":9}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"name":"Text 0","text":"3. การออกแบบและวิธีดำเนินงาน","textPreview":"3. การออกแบบและวิธีดำเนินงาน","textChars":28,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"name":"Text 1","text":"เลือกแสดงแผนภาพที่ตรงกับประเภทโครงงานของตนเอง","textPreview":"เลือกแสดงแผนภาพที่ตรงกับประเภทโครงงานของตนเอง","textChars":45,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/rm1k7yt4","slide":4,"name":"Shape 2","bbox":[67.2,148.8,556.8,331.2]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"name":"Shape 3","bbox":[67.2,148.8,7.68,331.2]}
+{"kind":"textbox","id":"sh/doj29oba","slide":4,"name":"Text 4","text":"พื้นที่วางแผนภาพหลัก","textPreview":"พื้นที่วางแผนภาพหลัก","textChars":20,"textLines":1,"bbox":[88.32,163.2,520.32,32.64]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"name":"Text 5","text":"วางภาพ Architecture / System Diagram / Workflow / Use Case / Circuit Block Diagram / AI Pipeline / Game Flow ตามประเภทโครงงาน\n\n[ลากรูปหรือแผนภาพมาวางแทนข้อความนี้]","textPreview":"วางภาพ Architecture / System Diagram / Workflow / Use Case / Circuit Block Diagram / AI Pipeline / Game Flow ตามประเภทโครงงาน |  | [ลากรู...","textChars":163,"textLines":3,"bbox":[88.32,204.48,518.4,260.16]}
+{"kind":"shape","id":"sh/3ihk3et8","slide":4,"name":"Shape 6","bbox":[650.88,148.8,556.8,331.2]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"Shape 7","bbox":[650.88,148.8,7.68,331.2]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"Text 8","text":"อธิบายแนวทางพัฒนา","textPreview":"อธิบายแนวทางพัฒนา","textChars":17,"textLines":1,"bbox":[672,163.2,520.32,32.64]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"name":"Text 9","text":"• เครื่องมือ / ภาษา / Framework / Hardware ที่ใช้\n• โครงสร้างระบบและการเชื่อมต่อ\n• หลักการทำงานของส่วนสำคัญ\n• เหตุผลที่เลือกแนวทางนี้","textPreview":"• เครื่องมือ / ภาษา / Framework / Hardware ที่ใช้ | • โครงสร้างระบบและการเชื่อมต่อ | • หลักการทำงานของส่วนสำคัญ | • เหตุผลที่เลือกแนวทางนี้","textChars":133,"textLines":4,"bbox":[672,204.48,518.4,260.16]}
+{"kind":"shape","id":"sh/i94r6xgz","slide":4,"name":"Shape 10","bbox":[67.2,506.88,1140.48,88.32]}
+{"kind":"textbox","id":"sh/jadsz2xk","slide":4,"name":"Text 11","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[84.48,518.4,120,24]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"Text 12","text":"Web/App: Architecture + Database | AI: Dataset + Model/Pipeline | IoT: Sensor/Controller/Cloud | Hardware: Block/Circuit | Game: Game Flow + Core Mechanics","textPreview":"Web/App: Architecture + Database | AI: Dataset + Model/Pipeline | IoT: Sensor/Controller/Cloud | Hardware: Block/Circuit | Game: Game Flo...","textChars":155,"textLines":1,"bbox":[187.2,516.48,1004.16,71.04]}
+{"kind":"textbox","id":"sh/gv29g7q5","slide":4,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":""}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"4. ผลงานที่ดำเนินการเสร็จแล้ว","textShapes":11}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"name":"Text 0","text":"4. ผลงานที่ดำเนินการเสร็จแล้ว","textPreview":"4. ผลงานที่ดำเนินการเสร็จแล้ว","textChars":29,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"name":"Text 1","text":"เน้น “ของจริงที่ทำได้แล้ว” มากกว่าคำอธิบาย","textPreview":"เน้น “ของจริงที่ทำได้แล้ว” มากกว่าคำอธิบาย","textChars":42,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"name":"Shape 2","bbox":[69.12,148.8,360,355.2]}
+{"kind":"shape","id":"sh/yhkbe1o7","slide":5,"name":"Shape 3","bbox":[69.12,148.8,7.68,355.2]}
+{"kind":"textbox","id":"sh/l4bupwny","slide":5,"name":"Text 4","text":"ผลงานส่วนที่ 1","textPreview":"ผลงานส่วนที่ 1","textChars":14,"textLines":1,"bbox":[90.24,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/032tgr6d","slide":5,"name":"Text 5","text":"[ภาพหน้าจอ / ภาพชิ้นงาน / ภาพวงจร]\n\nคำอธิบายสั้น ๆ ว่าส่วนนี้ทำอะไร และใช้งานได้ถึงระดับใด","textPreview":"[ภาพหน้าจอ / ภาพชิ้นงาน / ภาพวงจร] |  | คำอธิบายสั้น ๆ ว่าส่วนนี้ทำอะไร และใช้งานได้ถึงระดับใด","textChars":90,"textLines":3,"bbox":[90.24,204.48,321.6,284.16]}
+{"kind":"shape","id":"sh/n6dcr65o","slide":5,"name":"Shape 6","bbox":[458.88,148.8,360,355.2]}
+{"kind":"shape","id":"sh/m5kbi1oj","slide":5,"name":"Shape 7","bbox":[458.88,148.8,7.68,355.2]}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"name":"Text 8","text":"ผลงานส่วนที่ 2","textPreview":"ผลงานส่วนที่ 2","textChars":14,"textLines":1,"bbox":[480,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/x4vedgvm","slide":5,"name":"Text 9","text":"[ภาพหน้าจอ / ภาพชิ้นงาน / ผลลัพธ์]\n\nระบุฟังก์ชันหรือโมดูลที่เสร็จแล้ว","textPreview":"[ภาพหน้าจอ / ภาพชิ้นงาน / ผลลัพธ์] |  | ระบุฟังก์ชันหรือโมดูลที่เสร็จแล้ว","textChars":69,"textLines":3,"bbox":[480,204.48,321.6,284.16]}
+{"kind":"shape","id":"sh/ahkvi1cb","slide":5,"name":"Shape 10","bbox":[848.64,148.8,360,355.2]}
+{"kind":"shape","id":"sh/v2twb6dw","slide":5,"name":"Shape 11","bbox":[848.64,148.8,7.68,355.2]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"Text 12","text":"ผลงานส่วนที่ 3","textPreview":"ผลงานส่วนที่ 3","textChars":14,"textLines":1,"bbox":[869.76,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/58vehgvy","slide":5,"name":"Text 13","text":"[ภาพหน้าจอ / ภาพชิ้นงาน / ผลลัพธ์]\n\nระบุสิ่งที่สามารถสาธิตได้ในวันสอบ","textPreview":"[ภาพหน้าจอ / ภาพชิ้นงาน / ผลลัพธ์] |  | ระบุสิ่งที่สามารถสาธิตได้ในวันสอบ","textChars":69,"textLines":3,"bbox":[869.76,204.48,321.6,284.16]}
+{"kind":"shape","id":"sh/i54fmlc7","slide":5,"name":"Shape 14","bbox":[69.12,532.8,1139.52,78.72]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"Text 15","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[86.4,544.32,120,24]}
+{"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"name":"Text 16","text":"หากเป็นซอฟต์แวร์ควรมี URL / Source Code / Git หรือหลักฐานการทำงาน หากเป็นฮาร์ดแวร์ควรมี Prototype จริงและภาพประกอบ","textPreview":"หากเป็นซอฟต์แวร์ควรมี URL / Source Code / Git หรือหลักฐานการทำงาน หากเป็นฮาร์ดแวร์ควรมี Prototype จริงและภาพประกอบ","textChars":114,"textLines":1,"bbox":[189.12,542.4,1003.2,61.44]}
+{"kind":"textbox","id":"sh/4ji5kbid","slide":5,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":""}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"5. การทดสอบและผลที่ได้","textShapes":7}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"name":"Text 0","text":"5. การทดสอบและผลที่ได้","textPreview":"5. การทดสอบและผลที่ได้","textChars":22,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"name":"Text 1","text":"แสดงหลักฐานว่าผลงานไม่ได้เพียง “ทำเสร็จ” แต่ผ่านการทดสอบบางส่วนแล้ว","textPreview":"แสดงหลักฐานว่าผลงานไม่ได้เพียง “ทำเสร็จ” แต่ผ่านการทดสอบบางส่วนแล้ว","textChars":67,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/98rqt4r6","slide":6,"name":"Shape 2","bbox":[65.28,430.08,556.8,122.88]}
+{"kind":"shape","id":"sh/ml07i9sv","slide":6,"name":"Shape 3","bbox":[65.28,430.08,7.68,122.88]}
+{"kind":"textbox","id":"sh/7m98ru9g","slide":6,"name":"Text 4","text":"หลักฐานผลการทดสอบ","textPreview":"หลักฐานผลการทดสอบ","textChars":17,"textLines":1,"bbox":[86.4,444.48,520.32,32.64]}
+{"kind":"textbox","id":"sh/oryp8fah","slide":6,"name":"Text 5","text":"[กราฟ / ตาราง / Log / Accuracy / Latency / ภาพผลทดสอบ / วิดีโอ]","textPreview":"[กราฟ / ตาราง / Log / Accuracy / Latency / ภาพผลทดสอบ / วิดีโอ]","textChars":63,"textLines":1,"bbox":[86.4,485.76,518.4,51.84]}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"Shape 6","bbox":[650.88,430.08,562.56,122.88]}
+{"kind":"shape","id":"sh/h4bupgn6","slide":6,"name":"Shape 7","bbox":[650.88,430.08,7.68,122.88]}
+{"kind":"textbox","id":"sh/w32twb6l","slide":6,"name":"Text 8","text":"ข้อค้นพบ","textPreview":"ข้อค้นพบ","textChars":8,"textLines":1,"bbox":[672,444.48,526.08,32.64]}
+{"kind":"textbox","id":"sh/v2tcn650","slide":6,"name":"Text 9","text":"[ส่วนที่ทำงานได้ดี]\n[ส่วนที่ต้องปรับปรุงก่อนสอบจบ]","textPreview":"[ส่วนที่ทำงานได้ดี] | [ส่วนที่ต้องปรับปรุงก่อนสอบจบ]","textChars":50,"textLines":2,"bbox":[672,485.76,524.16,51.84]}
+{"kind":"textbox","id":"sh/lg76d8zy","slide":6,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"table","id":"tb/hgv6dwfm","slide":6,"name":"Table 0","rows":4,"cols":5,"preview":"รายการทดสอบ | วิธีทดสอบ | ผลที่คาดหวัง | ผลที่ได้ | สถานะ","bbox":[65.28,156.48,1148.16,244.8]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":""}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"6. ปัญหา อุปสรรค และการแก้ไข","textShapes":5}
+{"kind":"textbox","id":"sh/cb2tkvap","slide":7,"name":"Text 0","text":"6. ปัญหา อุปสรรค และการแก้ไข","textPreview":"6. ปัญหา อุปสรรค และการแก้ไข","textChars":28,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"name":"Text 1","text":"กรรมการต้องเห็นกระบวนการคิดและการแก้ปัญหาระหว่างพัฒนา","textPreview":"กรรมการต้องเห็นกระบวนการคิดและการแก้ปัญหาระหว่างพัฒนา","textChars":53,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/zedcfa9g","slide":7,"name":"Shape 2","bbox":[67.2,495.36,1142.4,91.2]}
+{"kind":"textbox","id":"sh/kzmdova1","slide":7,"name":"Text 3","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[84.48,506.88,120,24]}
+{"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"name":"Text 4","text":"ไม่ควรตอบเพียง “ไม่มีปัญหา” หากมีการพัฒนาจริงย่อมมีข้อผิดพลาด การปรับแบบ หรือข้อจำกัดบางประการ ให้เลือกเฉพาะประเด็นสำคัญ","textPreview":"ไม่ควรตอบเพียง “ไม่มีปัญหา” หากมีการพัฒนาจริงย่อมมีข้อผิดพลาด การปรับแบบ หรือข้อจำกัดบางประการ ให้เลือกเฉพาะประเด็นสำคัญ","textChars":120,"textLines":1,"bbox":[187.2,504.96,1006.08,73.92]}
+{"kind":"textbox","id":"sh/r2dkrq5g","slide":7,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"table","id":"tb/vm9czels","slide":7,"name":"Table 0","rows":4,"cols":4,"preview":"ปัญหาที่พบ | สาเหตุ | แนวทางแก้ไขที่ดำเนินการ | ผลหลังแก้ไข","bbox":[67.2,160.32,1142.4,302.4]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":""}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"7. งานที่ยังเหลือและแผนพัฒนาสู่ 100%","textShapes":5}
+{"kind":"textbox","id":"sh/18byd4zy","slide":8,"name":"Text 0","text":"7. งานที่ยังเหลือและแผนพัฒนาสู่ 100%","textPreview":"7. งานที่ยังเหลือและแผนพัฒนาสู่ 100%","textChars":36,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"name":"Text 1","text":"ส่วนนี้เชื่อมจาก “โครงการ 1” ไปสู่การทำผลงานสมบูรณ์และสอบจบในภาคเรียนหน้า","textPreview":"ส่วนนี้เชื่อมจาก “โครงการ 1” ไปสู่การทำผลงานสมบูรณ์และสอบจบในภาคเรียนหน้า","textChars":73,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/6h0fypgb","slide":8,"name":"Shape 2","bbox":[65.28,494.4,1150.08,94.08]}
+{"kind":"textbox","id":"sh/tkby9kzm","slide":8,"name":"Text 3","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[82.56,505.92,120,24]}
+{"kind":"textbox","id":"sh/sjix0zy1","slide":8,"name":"Text 4","text":"ระบุเฉพาะงานที่เหลือจริง ไม่ใช้ถ้อยคำกว้าง ๆ เช่น “ปรับปรุงระบบให้สมบูรณ์” แต่ต้องระบุว่าจะเพิ่ม/แก้/ทดสอบอะไร","textPreview":"ระบุเฉพาะงานที่เหลือจริง ไม่ใช้ถ้อยคำกว้าง ๆ เช่น “ปรับปรุงระบบให้สมบูรณ์” แต่ต้องระบุว่าจะเพิ่ม/แก้/ทดสอบอะไร","textChars":110,"textLines":1,"bbox":[185.28,504,1013.76,76.8]}
+{"kind":"textbox","id":"sh/kredcr6t","slide":8,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"table","id":"tb/0z6pgzup","slide":8,"name":"Table 0","rows":4,"cols":4,"preview":"งานที่เหลือ | สถานะปัจจุบัน | สิ่งที่จะดำเนินการต่อ | เป้าหมาย/หลักฐานเมื่อเสร็จ","bbox":[65.28,161.28,1150.08,302.4]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":""}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"8. การแบ่งหน้าที่และผลงานรายบุคคล","textShapes":5}
+{"kind":"textbox","id":"sh/1cfmhgne","slide":9,"name":"Text 0","text":"8. การแบ่งหน้าที่และผลงานรายบุคคล","textPreview":"8. การแบ่งหน้าที่และผลงานรายบุคคล","textChars":33,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"name":"Text 1","text":"ใช้ตรวจสอบการมีส่วนร่วมของสมาชิกแต่ละคนในการตัดเกรดโครงการ 1","textPreview":"ใช้ตรวจสอบการมีส่วนร่วมของสมาชิกแต่ละคนในการตัดเกรดโครงการ 1","textChars":60,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/mdonql4z","slide":9,"name":"Shape 2","bbox":[67.2,499.2,1142.4,88.32]}
+{"kind":"textbox","id":"sh/9gzml0nq","slide":9,"name":"Text 3","text":"สิ่งที่ต้องใส่","textPreview":"สิ่งที่ต้องใส่","textChars":14,"textLines":1,"bbox":[84.48,510.72,120,24]}
+{"kind":"textbox","id":"sh/ofq5svm5","slide":9,"name":"Text 4","text":"สมาชิกทุกคนต้องตอบคำถามเกี่ยวกับงานของตนเองได้ และกรรมการอาจให้คะแนนรายบุคคลแตกต่างกันตามหลักฐานและความเข้าใจ","textPreview":"สมาชิกทุกคนต้องตอบคำถามเกี่ยวกับงานของตนเองได้ และกรรมการอาจให้คะแนนรายบุคคลแตกต่างกันตามหลักฐานและความเข้าใจ","textChars":109,"textLines":1,"bbox":[187.2,508.8,1006.08,71.04]}
+{"kind":"textbox","id":"sh/wba1cjqp","slide":9,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"table","id":"tb/4j2p4rud","slide":9,"name":"Table 0","rows":4,"cols":4,"preview":"ชื่อสมาชิก | หน้าที่รับผิดชอบ | สิ่งที่ทำสำเร็จ | หลักฐาน","bbox":[67.2,163.2,1142.4,305.28]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":""}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"9. สรุปผลการดำเนินงานและสาธิต","textShapes":12}
+{"kind":"textbox","id":"sh/xc3mho32","slide":10,"name":"Text 0","text":"9. สรุปผลการดำเนินงานและสาธิต","textPreview":"9. สรุปผลการดำเนินงานและสาธิต","textChars":29,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"name":"Text 1","text":"ปิดการนำเสนอด้วยสิ่งที่ทำได้จริง ณ วันสอบ","textPreview":"ปิดการนำเสนอด้วยสิ่งที่ทำได้จริง ณ วันสอบ","textChars":41,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"shape","id":"sh/zelojyl8","slide":10,"name":"Shape 2","bbox":[67.2,148.8,360,225.6]}
+{"kind":"shape","id":"sh/ydcnatkn","slide":10,"name":"Shape 3","bbox":[67.2,148.8,7.68,225.6]}
+{"kind":"textbox","id":"sh/l036l83y","slide":10,"name":"Text 4","text":"ระดับความสำเร็จ","textPreview":"ระดับความสำเร็จ","textChars":15,"textLines":1,"bbox":[88.32,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"name":"Text 5","text":"ความก้าวหน้าปัจจุบัน : [___ %]\n\nส่วนสำคัญที่ทำสำเร็จ :\n[1–3 ประเด็น]","textPreview":"ความก้าวหน้าปัจจุบัน : [___ %] |  | ส่วนสำคัญที่ทำสำเร็จ : | [1–3 ประเด็น]","textChars":68,"textLines":4,"bbox":[88.32,204.48,321.6,154.56]}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"name":"Shape 6","bbox":[458.88,148.8,360,225.6]}
+{"kind":"shape","id":"sh/m1cnetkj","slide":10,"name":"Shape 7","bbox":[458.88,148.8,7.68,225.6]}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"name":"Text 8","text":"สิ่งที่พิสูจน์ได้","textPreview":"สิ่งที่พิสูจน์ได้","textChars":17,"textLines":1,"bbox":[480,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/d87uxg3m","slide":10,"name":"Text 9","text":"[ระบบทำงาน / Prototype ทำงาน / Model ให้ผล / Game เล่นได้]\n\nอ้างอิงหลักฐานที่แสดงในวันสอบ","textPreview":"[ระบบทำงาน / Prototype ทำงาน / Model ให้ผล / Game เล่นได้] |  | อ้างอิงหลักฐานที่แสดงในวันสอบ","textChars":89,"textLines":3,"bbox":[480,204.48,321.6,154.56]}
+{"kind":"shape","id":"sh/q5gb21kb","slide":10,"name":"Shape 10","bbox":[850.56,148.8,360,225.6]}
+{"kind":"shape","id":"sh/r6pcv6lw","slide":10,"name":"Shape 11","bbox":[850.56,148.8,7.68,225.6]}
+{"kind":"textbox","id":"sh/0bit8b2d","slide":10,"name":"Text 12","text":"เป้าหมายภาคเรียนหน้า","textPreview":"เป้าหมายภาคเรียนหน้า","textChars":20,"textLines":1,"bbox":[871.68,163.2,323.52,32.64]}
+{"kind":"textbox","id":"sh/1cru1g3y","slide":10,"name":"Text 13","text":"[งานสำคัญที่ต้องทำให้ครบ 100%]\n\n[การทดสอบ/ประเมิน/จัดทำรายงานฉบับสมบูรณ์]","textPreview":"[งานสำคัญที่ต้องทำให้ครบ 100%] |  | [การทดสอบ/ประเมิน/จัดทำรายงานฉบับสมบูรณ์]","textChars":73,"textLines":3,"bbox":[871.68,204.48,321.6,154.56]}
+{"kind":"shape","id":"sh/e9gb61k7","slide":10,"name":"Shape 14","bbox":[67.2,417.6,1143.36,110.4]}
+{"kind":"textbox","id":"sh/fapcz6ls","slide":10,"name":"Text 15","text":"DEMO ผลงานจริง","textPreview":"DEMO ผลงานจริง","textChars":14,"textLines":1,"bbox":[100.8,443.52,240,42.24]}
+{"kind":"textbox","id":"sh/ozitcv29","slide":10,"name":"Text 16","text":"แนะนำให้เตรียมการสาธิต 2–3 นาที และมีวิดีโอสำรองกรณีอุปกรณ์/เครือข่ายขัดข้อง","textPreview":"แนะนำให้เตรียมการสาธิต 2–3 นาที และมีวิดีโอสำรองกรณีอุปกรณ์/เครือข่ายขัดข้อง","textChars":76,"textLines":1,"bbox":[326.4,439.68,820.8,46.08]}
+{"kind":"textbox","id":"sh/p0ru503u","slide":10,"name":"Text 17","text":"ขอบคุณครับ / ค่ะ   |   คำถามจากกรรมการ","textPreview":"ขอบคุณครับ / ค่ะ   |   คำถามจากกรรมการ","textChars":38,"textLines":1,"bbox":[264,580.8,748.8,52.8]}
+{"kind":"textbox","id":"sh/kjytkvup","slide":10,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":""}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"คำแนะนำก่อนวันสอบ","textShapes":5}
+{"kind":"textbox","id":"sh/xcryxg7y","slide":11,"name":"Text 0","text":"คำแนะนำก่อนวันสอบ","textPreview":"คำแนะนำก่อนวันสอบ","textChars":17,"textLines":1,"bbox":[52.8,41.28,1171.2,52.8]}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"name":"Text 1","text":"สไลด์นี้ใช้เป็นแนวทางเตรียมตัว สามารถลบออกก่อนนำเสนอได้","textPreview":"สไลด์นี้ใช้เป็นแนวทางเตรียมตัว สามารถลบออกก่อนนำเสนอได้","textChars":55,"textLines":1,"bbox":[55.68,96.96,1132.8,32.64]}
+{"kind":"textbox","id":"sh/n69grmpw","slide":11,"name":"Text 2","text":"เวลานำเสนอแนะนำ 7–10 นาที และตอบคำถามประมาณ 3–5 นาที\nนำเสนอเฉพาะผลการดำเนินงานที่ทำได้จริง ณ วันสอบ ไม่จำเป็นต้องอ้างว่าโครงงานสมบูรณ์ 100%\nต้องมีหลักฐาน เช่น Source Code, Git/ไฟล์งาน, ภาพถ่าย Prototype, Screenshot, Log, ผลทดสอบ หรือ Dataset ตามประเภทโครงงาน\nเตรียม Demo จริง และควรมีวิดีโอสำรองกรณีอินเทอร์เน็ต อุปกรณ์ หรือระบบมีปัญหา\nสมาชิกทุกคนต้องรู้ภาพรวมโครงงาน และต้องอธิบายงานที่ตนเองรับผิดชอบได้\nงานที่ยังไม่เสร็จให้ระบุอย่างตรงไปตรงมา พร้อมแผนดำเนินการต่อในภาคเรียนหน้าเพื่อเข้าสู่การสอบจบ","textPreview":"เวลานำเสนอแนะนำ 7–10 นาที และตอบคำถามประมาณ 3–5 นาที | นำเสนอเฉพาะผลการดำเนินงานที่ทำได้จริง ณ วันสอบ ไม่จำเป็นต้องอ้างว่าโครงงานสมบูรณ์ ...","textChars":499,"textLines":6,"bbox":[91.2,148.8,1080,364.8]}
+{"kind":"shape","id":"sh/250zy18b","slide":11,"name":"Shape 3","bbox":[91.2,532.8,1080,84.48]}
+{"kind":"textbox","id":"sh/98rytw72","slide":11,"name":"Text 4","text":"หลักสำคัญ: “คะแนนโครงการ 1 พิจารณาจากสิ่งที่พัฒนาได้จริง ความเข้าใจของผู้จัดทำ คุณภาพหลักฐาน และความพร้อมที่จะพัฒนาต่อให้สมบูรณ์ในโครงการ 2”","textPreview":"หลักสำคัญ: “คะแนนโครงการ 1 พิจารณาจากสิ่งที่พัฒนาได้จริง ความเข้าใจของผู้จัดทำ คุณภาพหลักฐาน และความพร้อมที่จะพัฒนาต่อให้สมบูรณ์ในโครงการ 2”","textChars":140,"textLines":1,"bbox":[115.2,554.88,1032,43.2]}
+{"kind":"textbox","id":"sh/k3uhcb6h","slide":11,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1233.6,683.52,83.99,31.5]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":""}

@@ -32,32 +32,52 @@ export default async function AdminDashboardPage() {
   const unpublishedKnowledge = totalKnowledge - publishedKnowledge;
   const totalUsers = users?.length || 0;
 
+  const publishRate = totalKnowledge > 0 ? Math.round((publishedKnowledge / totalKnowledge) * 100) : 0;
+
   return (
-    <div className="p-8 space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">แดชบอร์ดผู้ดูแลระบบ</h1>
-        <p className="text-muted-foreground mt-2">ภาพรวมการจัดการระบบ CMTC AI</p>
+    <div className="space-y-8">
+      <div className="rounded-lg border border-border/80 bg-card/80 p-6 shadow-[0_18px_70px_-55px_color-mix(in_oklch,var(--foreground),transparent_10%)]">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-sm font-medium text-primary">Admin command center</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.01em]">แดชบอร์ดผู้ดูแลระบบ</h1>
+            <p className="mt-2 max-w-2xl text-muted-foreground">ภาพรวมการจัดการความรู้ ผู้ใช้งาน และสถานะการเผยแพร่ของระบบ CMTC AI</p>
+          </div>
+          <div className="rounded-lg border border-border bg-background/70 px-4 py-3">
+            <div className="text-sm text-muted-foreground">อัตราการเผยแพร่</div>
+            <div className="mt-1 text-2xl font-semibold text-primary">{publishRate}%</div>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Knowledge ทั้งหมด" value={totalKnowledge} icon={<BookOpen className="h-5 w-5 text-blue-500" />} />
-        <StatCard title="Knowledge ที่เผยแพร่" value={publishedKnowledge} icon={<BookCheck className="h-5 w-5 text-green-500" />} />
-        <StatCard title="Knowledge ที่ยังไม่เผยแพร่" value={unpublishedKnowledge} icon={<BookX className="h-5 w-5 text-red-500" />} />
-        <StatCard title="จำนวนผู้ใช้งาน" value={totalUsers} icon={<Users className="h-5 w-5 text-purple-500" />} />
+        <StatCard title="Knowledge ทั้งหมด" value={totalKnowledge} tone="primary" icon={<BookOpen className="h-5 w-5" />} />
+        <StatCard title="Knowledge ที่เผยแพร่" value={publishedKnowledge} tone="success" icon={<BookCheck className="h-5 w-5" />} />
+        <StatCard title="Knowledge ที่ยังไม่เผยแพร่" value={unpublishedKnowledge} tone="warning" icon={<BookX className="h-5 w-5" />} />
+        <StatCard title="จำนวนผู้ใช้งาน" value={totalUsers} tone="neutral" icon={<Users className="h-5 w-5" />} />
       </div>
     </div>
   );
 }
 
-function StatCard({ title, value, icon }: { title: string, value: number, icon: React.ReactNode }) {
+function StatCard({ title, value, icon, tone }: { title: string, value: number, icon: React.ReactNode, tone: "primary" | "success" | "warning" | "neutral" }) {
+  const toneClass = {
+    primary: "bg-primary/10 text-primary",
+    success: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300",
+    warning: "bg-amber-500/12 text-amber-700 dark:text-amber-300",
+    neutral: "bg-secondary text-secondary-foreground",
+  }[tone];
+
   return (
-    <Card>
+    <Card className="relative">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {icon}
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <div className={`flex size-9 items-center justify-center rounded-lg ${toneClass}`}>
+          {icon}
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-3xl font-semibold tracking-tight">{value.toLocaleString("th-TH")}</div>
       </CardContent>
     </Card>
   );

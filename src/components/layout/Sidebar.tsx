@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, FileText, BookOpen, Users, ShieldCheck, LogOut, Building, History, Settings, BarChart } from 'lucide-react';
+import { LayoutDashboard, FileText, BookOpen, Users, LogOut, Building, History, Settings, BarChart, Sparkles } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 
 export function Sidebar() {
@@ -18,6 +18,7 @@ export function Sidebar() {
 
   const adminItems = [
     { name: 'แดชบอร์ด', href: '/admin/dashboard', icon: LayoutDashboard },
+    { name: 'แชท AI', href: '/admin/chat', icon: Sparkles },
     { name: 'จัดการข้อมูลความรู้', href: '/admin/knowledge', icon: BookOpen },
     { name: 'จัดการเอกสาร', href: '/admin/documents', icon: FileText },
     { name: 'จัดการบุคลากร', href: '/admin/users', icon: Users },
@@ -29,6 +30,7 @@ export function Sidebar() {
 
   const staffItems = [
     { name: 'แดชบอร์ด', href: '/staff/dashboard', icon: LayoutDashboard },
+    { name: 'แชท AI', href: '/staff/chat', icon: Sparkles },
     { name: 'ข้อมูลความรู้ประชาสัมพันธ์', href: '/staff/knowledge', icon: BookOpen },
     { name: 'จัดการเอกสาร', href: '/staff/documents', icon: FileText },
   ];
@@ -36,25 +38,35 @@ export function Sidebar() {
   const navItems = isAdmin ? adminItems : staffItems;
 
   return (
-    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground p-4">
-      <div className="text-xl font-bold mb-8">CMTC AI</div>
-      <nav className="flex-1 space-y-2">
+    <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
+      <div className="border-b border-sidebar-border/70 px-4 py-5">
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-lg border border-sidebar-primary/30 bg-sidebar-primary/15 text-sidebar-primary">
+            <Sparkles className="size-5" />
+          </div>
+          <div>
+            <div className="text-base font-semibold leading-tight">CMTC AI</div>
+            <div className="text-xs text-sidebar-foreground/60">Knowledge System</div>
+          </div>
+        </div>
+      </div>
+      <nav className="flex-1 space-y-1 px-3 py-4">
         {navItems.map((item) => (
           <Link
             key={item.name}
             href={item.href}
-            className={`flex items-center gap-3 px-4 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${pathname === item.href ? 'bg-sidebar-accent' : ''}`}
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${pathname === item.href ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-[inset_3px_0_0_var(--sidebar-primary)]' : 'text-sidebar-foreground/76'}`}
           >
-            <item.icon className="size-5" />
-            {item.name}
+            <item.icon className="size-4.5" />
+            <span className="truncate">{item.name}</span>
           </Link>
         ))}
       </nav>
       <button
         onClick={handleLogout}
-        className="flex items-center gap-3 px-4 py-2 mt-auto rounded-md text-red-500 hover:bg-red-50 hover:text-red-600"
+        className="mx-3 mb-4 mt-auto flex items-center gap-3 rounded-lg border border-sidebar-border/80 px-3 py-2.5 text-sm text-sidebar-foreground/75 transition-colors hover:border-destructive/35 hover:bg-destructive/10 hover:text-destructive"
       >
-        <LogOut className="size-5" />
+        <LogOut className="size-4.5" />
         ออกจากระบบ
       </button>
     </div>

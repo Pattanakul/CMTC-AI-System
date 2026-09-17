@@ -1,0 +1,14 @@
+
+> cmtc-ai-system@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3000
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://127.0.0.1:3000
+- Network:       http://127.0.0.1:3000
+- Environments: .env.local
+✓ Ready in 1281ms
+- Experiments (use with caution):
+  · serverActions
+
+ GET / 200 in 1469ms (next.js: 699ms, proxy.ts: 135ms, application-code: 634ms)
+[?25h

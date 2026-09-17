@@ -71,7 +71,11 @@ export default async function DocumentDetailPage({ params }: DocumentDetailPageP
         </div>
 
         {/* Document Detail */}
-        <DocumentDetailCard document={document} departmentName={departmentName} />
+        <DocumentDetailCard
+          document={document}
+          departmentName={departmentName}
+          basePath="/admin/documents"
+        />
       </div>
     </div>
   );
