@@ -8,6 +8,8 @@ const SKILL_DIR = "C:\\Users\\ACER\\.codex\\plugins\\cache\\openai-primary-runti
 const TMP_DIR = path.join(workspaceDir, ".codex-dev", "test-summary-slide-build");
 const FINAL_PPTX = path.join(workspaceDir, "นำเสนอ", "CMTC_AI_Knowledge_Management_System_แผนการทดสอบและสรุปผล.pptx");
 const RUNTIME_PYTHON = "C:\\Users\\ACER\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe";
+process.env.RUNTIME_NODE_MODULES = "C:\\Users\\ACER\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules";
+process.env.RUNTIME_BIN_DIR = "C:\\Users\\ACER\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\override";
 
 const { resolvePresentationFont, finalizePresentation } = await import(
   pathToFileURL(path.join(SKILL_DIR, "container_tools", "artifact_tool_utils.mjs")).href,
@@ -175,7 +177,7 @@ const result = await finalizePresentation({
   fontPolicy: {
     basis: "design",
     families: [family],
-    scriptFonts: { Thai: family },
+    scriptFonts: { cs: family },
   },
   verifyArtifactToolImport: true,
   receiptPath: path.join(TMP_DIR, "validation.json"),
