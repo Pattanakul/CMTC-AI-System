@@ -22,10 +22,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { createClient } from '@/utils/supabase/server'
 
 const aiAgents = [
-  { id: 'knowledge_qa', name: 'Knowledge QA', task: 'ตอบคำถามจากฐานความรู้' },
-  { id: 'document_summarizer', name: 'Document Summarizer', task: 'สรุปและประมวลผลเอกสาร' },
-  { id: 'facebook_reply', name: 'Facebook Reply', task: 'ช่วยร่างคำตอบ Facebook' },
-  { id: 'content_classifier', name: 'Content Classifier', task: 'จัดหมวดหมู่บทความ' },
+  { id: 'knowledge_qa', name: 'ผู้ช่วยตอบคำถามฐานความรู้', task: 'ตอบคำถามจากฐานความรู้' },
+  { id: 'document_summarizer', name: 'ผู้ช่วยสรุปเอกสาร', task: 'สรุปและประมวลผลเอกสาร' },
+  { id: 'facebook_reply', name: 'ผู้ช่วยตอบกลับ Facebook', task: 'ช่วยร่างคำตอบ Facebook' },
+  { id: 'content_classifier', name: 'ผู้ช่วยจัดหมวดหมู่เนื้อหา', task: 'จัดหมวดหมู่บทความ' },
 ]
 
 const modelOptions = [
@@ -57,25 +57,25 @@ export default async function SettingsPage() {
       <section className="rounded-lg border border-border/80 bg-card/80 p-6 shadow-[0_18px_70px_-55px_color-mix(in_oklch,var(--foreground),transparent_10%)]">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-medium text-primary">System control panel</p>
+            <p className="text-sm font-medium text-primary">แผงควบคุมระบบ</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-[-0.01em]">ตั้งค่าระบบ</h1>
             <p className="mt-2 max-w-2xl text-muted-foreground">
-              จัดการการเชื่อมต่อ n8n, Facebook token, AI agent, model และนโยบายการทำงานหลักของ CMTC AI
+              จัดการการเชื่อมต่อ n8n, โทเคน Facebook, เอเจนต์ AI, โมเดล และนโยบายการทำงานหลักของ CMTC AI
             </p>
           </div>
           <StatusPill
             icon={<Webhook className="size-4" />}
-            label={`n8n configured ${configuredCount}/4`}
+            label={`ตั้งค่า n8n แล้ว ${configuredCount}/4 รายการ`}
             active={configuredCount >= 3}
           />
         </div>
       </section>
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <OverviewCard title="n8n API key" active={n8nStatus.apiKey} />
-        <OverviewCard title="AI processing webhook" active={n8nStatus.processingWebhook} />
-        <OverviewCard title="Article publish webhook" active={n8nStatus.articleWebhook} />
-        <OverviewCard title="Facebook token webhook" active={n8nStatus.facebookTokenWebhook} />
+        <OverviewCard title="คีย์ API ของ n8n" active={n8nStatus.apiKey} />
+        <OverviewCard title="เว็บฮุกประมวลผล AI" active={n8nStatus.processingWebhook} />
+        <OverviewCard title="เว็บฮุกเผยแพร่บทความ" active={n8nStatus.articleWebhook} />
+        <OverviewCard title="เว็บฮุกอัปเดตโทเคน Facebook" active={n8nStatus.facebookTokenWebhook} />
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.05fr_0.95fr]">
@@ -85,32 +85,32 @@ export default async function SettingsPage() {
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <KeyRound className="size-5 text-primary" />
-                  Facebook Integration
+                  การเชื่อมต่อ Facebook
                 </CardTitle>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  ใช้สำหรับส่ง access token ใหม่ไปให้ n8n workflow ที่ดูแล Facebook automation
+                  ใช้สำหรับส่งโทเคนเข้าใช้งานใหม่ไปให้เวิร์กโฟลว์ n8n ที่ดูแลระบบอัตโนมัติของ Facebook
                 </p>
               </div>
-              <StatusPill label={n8nStatus.facebookTokenWebhook ? 'พร้อมเชื่อมต่อ' : 'ยังไม่ตั้ง webhook'} active={n8nStatus.facebookTokenWebhook} />
+              <StatusPill label={n8nStatus.facebookTokenWebhook ? 'พร้อมเชื่อมต่อ' : 'ยังไม่ตั้งเว็บฮุก'} active={n8nStatus.facebookTokenWebhook} />
             </div>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
               <div className="space-y-2">
-                <Label htmlFor="facebook-token">Facebook access token ใหม่</Label>
+                <Label htmlFor="facebook-token">โทเคนเข้าใช้งาน Facebook ใหม่</Label>
                 <Textarea
                   id="facebook-token"
                   name="facebookToken"
-                  placeholder="วาง token ใหม่ที่นี่ แล้วให้ backend ส่งต่อไปยัง n8n"
+                  placeholder="วางโทเคนใหม่ที่นี่ แล้วให้ระบบฝั่งเซิร์ฟเวอร์ส่งต่อไปยัง n8n"
                   className="min-h-28 bg-background/70"
                 />
                 <p className="text-xs text-muted-foreground">
-                  ตัวอย่าง flow ที่เหมาะสม: เว็บเรา → API ฝั่ง server → n8n webhook → update credential หรือ variable ใน n8n
+                  ตัวอย่างลำดับงานที่เหมาะสม: เว็บเรา → API ฝั่งเซิร์ฟเวอร์ → เว็บฮุก n8n → อัปเดตข้อมูลรับรองหรือค่าตัวแปรใน n8n
                 </p>
               </div>
               <div className="grid gap-3 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="facebook-page-id">Facebook page ID</Label>
+                  <Label htmlFor="facebook-page-id">รหัสเพจ Facebook</Label>
                   <Input id="facebook-page-id" placeholder="เช่น 1234567890" />
                 </div>
                 <div className="space-y-2">
@@ -121,7 +121,7 @@ export default async function SettingsPage() {
               <div className="flex flex-wrap gap-2">
                 <Button type="button">
                   <Save className="size-4" />
-                  อัปเดต token ใน n8n
+                  อัปเดตโทเคนใน n8n
                 </Button>
                 <Button type="button" variant="outline">
                   <TestTube2 className="size-4" />
@@ -136,25 +136,25 @@ export default async function SettingsPage() {
           <CardHeader className="border-b">
             <CardTitle className="flex items-center gap-2">
               <BrainCircuit className="size-5 text-primary" />
-              AI Agent Defaults
+              ค่าเริ่มต้นผู้ช่วย AI
             </CardTitle>
             <p className="mt-1 text-sm text-muted-foreground">
-              เลือก agent และ model เริ่มต้นที่เว็บจะส่งไปให้ n8n เมื่อต้องประมวลผลงาน AI
+              เลือกเอเจนต์และโมเดลเริ่มต้นที่เว็บจะส่งไปให้ n8n เมื่อต้องประมวลผลงาน AI
             </p>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-3 md:grid-cols-2">
-                <SelectField label="Agent หลักสำหรับแชต" defaultValue="knowledge_qa" options={aiAgents.map((agent) => ({ value: agent.id, label: agent.name }))} />
-                <SelectField label="Model หลัก" defaultValue="gpt-4o-mini" options={modelOptions.map((model) => ({ value: model, label: model }))} />
+                <SelectField label="เอเจนต์หลักสำหรับแชต" defaultValue="knowledge_qa" options={aiAgents.map((agent) => ({ value: agent.id, label: agent.name }))} />
+                <SelectField label="โมเดลหลัก" defaultValue="gpt-4o-mini" options={modelOptions.map((model) => ({ value: model, label: model }))} />
               </div>
               <div className="grid gap-3 md:grid-cols-3">
-                <NumberField label="Temperature" defaultValue="0.30" step="0.05" min="0" max="2" />
-                <NumberField label="Max tokens" defaultValue="1200" step="100" min="100" max="8000" />
-                <NumberField label="Confidence ขั้นต่ำ" defaultValue="0.70" step="0.05" min="0" max="1" />
+                <NumberField label="ระดับความสร้างสรรค์" defaultValue="0.30" step="0.05" min="0" max="2" />
+                <NumberField label="จำนวนโทเคนสูงสุด" defaultValue="1200" step="100" min="100" max="8000" />
+                <NumberField label="ค่าความมั่นใจขั้นต่ำ" defaultValue="0.70" step="0.05" min="0" max="1" />
               </div>
               <Textarea
-                defaultValue="You are a helpful AI assistant for Chiang Mai Technical College. Answer in Thai, be concise, and cite internal knowledge when available."
+                defaultValue="คุณคือผู้ช่วย AI ของวิทยาลัยเทคนิคเชียงใหม่ ตอบเป็นภาษาไทย กระชับ และอ้างอิงข้อมูลภายในเมื่อมีข้อมูลที่เกี่ยวข้อง"
                 className="min-h-28 bg-background/70"
               />
               <div className="flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export default async function SettingsPage() {
                 </Button>
                 <Button type="button" variant="outline">
                   <Bot className="size-4" />
-                  ทดสอบ agent
+                  ทดสอบเอเจนต์
                 </Button>
               </div>
             </div>
@@ -175,8 +175,8 @@ export default async function SettingsPage() {
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <SettingsPanel
           icon={<Database className="size-5 text-primary" />}
-          title="Knowledge Policy"
-          description="กำหนดวิธีใช้ฐานความรู้และเอกสารเป็น context ให้ AI"
+          title="นโยบายฐานความรู้"
+          description="กำหนดวิธีใช้ฐานความรู้และเอกสารเป็นบริบทให้ AI"
         >
           <SelectField
             label="แหล่งข้อมูลที่ AI ใช้ตอบ"
@@ -188,38 +188,38 @@ export default async function SettingsPage() {
             ]}
           />
           <NumberField label="จำนวนรายการอ้างอิงสูงสุด" defaultValue="8" min="1" max="20" />
-          <SettingToggle title="เปิด cache คำตอบ" description="ใช้คำตอบเดิมเมื่อคำถามคล้ายกันเพื่อลดเวลาและค่าใช้จ่าย" checked />
-          <SettingToggle title="ส่งรายการ confidence ต่ำเข้าหน้าประวัติ" description="ช่วยให้แอดมินตรวจคุณภาพความรู้ย้อนหลังได้" checked />
+          <SettingToggle title="เปิดแคชคำตอบ" description="ใช้คำตอบเดิมเมื่อคำถามคล้ายกันเพื่อลดเวลาและค่าใช้จ่าย" checked />
+          <SettingToggle title="ส่งรายการที่มีค่าความมั่นใจต่ำเข้าหน้าประวัติ" description="ช่วยให้แอดมินตรวจคุณภาพความรู้ย้อนหลังได้" checked />
         </SettingsPanel>
 
         <SettingsPanel
           icon={<FileText className="size-5 text-primary" />}
-          title="Document Processing"
+          title="การประมวลผลเอกสาร"
           description="ตั้งค่างานอัปโหลดและประมวลผลเอกสารผ่าน n8n"
         >
           <InputRow label="ชนิดไฟล์ที่อนุญาต" value="pdf, docx, txt, md" />
           <NumberField label="ขนาดไฟล์สูงสุด (MB)" defaultValue="25" min="1" max="200" />
           <SettingToggle title="ประมวลผลอัตโนมัติหลังอัปโหลด" description="ส่งเอกสารเข้า n8n ทันทีเมื่ออัปโหลดสำเร็จ" checked />
-          <SettingToggle title="แจ้งเตือนเมื่อประมวลผลล้มเหลว" description="สร้างรายการตรวจสอบเมื่อ workflow ส่ง error กลับมา" checked />
+          <SettingToggle title="แจ้งเตือนเมื่อประมวลผลล้มเหลว" description="สร้างรายการตรวจสอบเมื่อเวิร์กโฟลว์ส่งข้อผิดพลาดกลับมา" checked />
         </SettingsPanel>
 
         <SettingsPanel
           icon={<LockKeyhole className="size-5 text-primary" />}
-          title="Security & Logging"
+          title="ความปลอดภัยและประวัติการใช้งาน"
           description="กำหนดการสมัครใช้งาน บทบาทเริ่มต้น และการเก็บประวัติ"
         >
           <SelectField
             label="บทบาทเริ่มต้นของผู้ใช้ใหม่"
             defaultValue="Staff"
             options={[
-              { value: 'Staff', label: 'Staff' },
-              { value: 'Teacher', label: 'Teacher' },
-              { value: 'Department Admin', label: 'Department Admin' },
+              { value: 'Staff', label: 'เจ้าหน้าที่' },
+              { value: 'Teacher', label: 'ครูผู้สอน' },
+              { value: 'Department Admin', label: 'ผู้ดูแลแผนก' },
             ]}
           />
           <NumberField label="เก็บประวัติการใช้งาน (วัน)" defaultValue="180" min="30" max="730" />
           <SettingToggle title="ต้องอนุมัติบัญชีก่อนใช้งาน" description="ผู้ใช้ใหม่ต้องผ่านการตรวจจากผู้ดูแลระบบ" checked />
-          <SettingToggle title="บันทึก analytics ของ AI" description="เก็บคำถาม คำตอบ เวลา และ confidence ใน ai_analytics" checked />
+          <SettingToggle title="บันทึกสถิติการใช้งาน AI" description="เก็บคำถาม คำตอบ เวลา และค่าความมั่นใจไว้ใน ai_analytics" checked />
         </SettingsPanel>
       </section>
 
@@ -227,10 +227,10 @@ export default async function SettingsPage() {
         <CardHeader className="border-b">
           <CardTitle className="flex items-center gap-2">
             <SlidersHorizontal className="size-5 text-primary" />
-            Agent Routing Map
+            แผนผังการส่งงานให้ผู้ช่วย AI
           </CardTitle>
           <p className="mt-1 text-sm text-muted-foreground">
-            ตารางนี้คือ mapping ที่เว็บควรส่งเป็น payload ไปให้ n8n เพื่อเลือก workflow/agent ตามประเภทงาน
+            ตารางนี้คือการจับคู่ข้อมูลที่เว็บควรส่งไปให้ n8n เพื่อเลือกเวิร์กโฟลว์หรือเอเจนต์ตามประเภทงาน
           </p>
         </CardHeader>
         <CardContent>
@@ -240,7 +240,7 @@ export default async function SettingsPage() {
                 <div className="flex items-center justify-between gap-3">
                   <div className="font-medium">{agent.name}</div>
                   <Badge variant="outline" className="border-primary/20 bg-primary/10 text-primary">
-                    active
+                    เปิดใช้งาน
                   </Badge>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{agent.task}</p>
@@ -262,7 +262,7 @@ function OverviewCard({ title, active }: { title: string; active: boolean }) {
           <div className="text-sm font-medium">{title}</div>
           <div className="mt-1 text-xs text-muted-foreground">{active ? 'พร้อมใช้งาน' : 'รอการตั้งค่า'}</div>
         </div>
-        <StatusPill label={active ? 'Ready' : 'Missing'} active={active} />
+        <StatusPill label={active ? 'พร้อม' : 'ยังไม่ครบ'} active={active} />
       </CardContent>
     </Card>
   )

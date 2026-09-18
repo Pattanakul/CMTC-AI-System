@@ -14,7 +14,6 @@ import { BrainCircuit, Database, ShieldCheck } from "lucide-react";
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const supabase = createClient();
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginCredentials>({
     resolver: zodResolver(LoginSchema),
@@ -22,6 +21,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginCredentials) => {
     setError(null);
+    const supabase = createClient();
 
     const { error: authError, data: authData } = await supabase.auth.signInWithPassword({
       email: data.email,

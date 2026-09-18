@@ -33,38 +33,38 @@ export default function CreateArticlePage() {
   const onSubmit = async (data: CreateArticle) => {
     try {
       await knowledgeService.createArticle(data);
-      toast.success("Article created successfully");
+      toast.success("สร้างบทความเรียบร้อยแล้ว");
       router.push("/admin/knowledge");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to create article");
+      toast.error(error instanceof Error ? error.message : "ไม่สามารถสร้างบทความได้");
     }
   };
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Create Knowledge Article</h1>
+      <h1 className="text-2xl font-bold mb-6">สร้างบทความองค์ความรู้</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">หัวข้อ</Label>
           <Input id="title" {...register("title")} />
           {errors.title && <p className="text-red-500 text-sm">{errors.title.message as string}</p>}
         </div>
 
         <div>
-          <Label htmlFor="question">Question</Label>
+          <Label htmlFor="question">คำถาม</Label>
           <Input id="question" {...register("question")} />
         </div>
 
         <div>
-          <Label htmlFor="answer">Answer</Label>
+          <Label htmlFor="answer">คำตอบ</Label>
           <Textarea id="answer" rows={10} {...register("answer")} />
           {errors.answer && <p className="text-red-500 text-sm">{errors.answer.message as string}</p>}
         </div>
 
         <div>
-          <Label>Category</Label>
+          <Label>หมวดหมู่</Label>
           <Select onValueChange={(v) => setValue("categoryId", v as string)}>
-            <SelectTrigger><SelectValue placeholder="Select Category" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="เลือกหมวดหมู่" /></SelectTrigger>
             <SelectContent>
               {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
             </SelectContent>
@@ -73,19 +73,19 @@ export default function CreateArticlePage() {
         </div>
 
         <div>
-            <Label>Status</Label>
+            <Label>สถานะ</Label>
             <Select onValueChange={(v) => setValue("isPublish", v === "true")}>
-              <SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger>
+              <SelectTrigger><SelectValue placeholder="เลือกสถานะ" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="true">Published</SelectItem>
-                <SelectItem value="false">Draft</SelectItem>
+                <SelectItem value="true">เผยแพร่</SelectItem>
+                <SelectItem value="false">ฉบับร่าง</SelectItem>
               </SelectContent>
             </Select>
         </div>
 
         <div className="flex justify-end space-x-4 pt-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/admin/knowledge")}>Cancel</Button>     
-          <Button type="submit">Create</Button>
+          <Button type="button" variant="outline" onClick={() => router.push("/admin/knowledge")}>ยกเลิก</Button>     
+          <Button type="submit">สร้างบทความ</Button>
         </div>
       </form>
     </div>

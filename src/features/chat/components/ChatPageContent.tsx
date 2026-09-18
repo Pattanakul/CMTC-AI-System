@@ -17,7 +17,14 @@ export async function ChatPageContent({ title = 'แชท AI' }: ChatPageConten
     redirect('/login');
   }
 
-  const conversation = await conversationService.createConversation(user.id, 'New Chat');
+  let conversationId = crypto.randomUUID();
+
+  try {
+    const conversation = await conversationService.createConversation(user.id, 'New Chat');
+    conversationId = conversation.id;
+  } catch (error) {
+    console.warn('Unable to create persisted conversation, using temporary chat session:', error);
+  }
 
   return (
     <div className="space-y-4">
@@ -25,7 +32,7 @@ export async function ChatPageContent({ title = 'แชท AI' }: ChatPageConten
         <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
         <p className="text-sm text-gray-500">ถามข้อมูลประชาสัมพันธ์และเอกสารในระบบ</p>
       </div>
-      <ChatWindow conversationId={conversation.id} />
+      <ChatWindow conversationId={conversationId} />
     </div>
   );
 }

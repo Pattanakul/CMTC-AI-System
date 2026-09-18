@@ -26,6 +26,17 @@ export const departmentService = {
     return data as Department
   },
 
+  async getDepartmentUserCount(departmentId: string): Promise<number> {
+    const supabase = createClient()
+    const { count, error } = await supabase
+      .from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('department_id', departmentId)
+
+    if (error) throw new Error(error.message)
+    return count ?? 0
+  },
+
   async createDepartment(data: DepartmentFormValues): Promise<Department> {
     const supabase = createClient()
     

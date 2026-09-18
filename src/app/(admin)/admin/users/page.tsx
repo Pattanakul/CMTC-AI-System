@@ -1,16 +1,52 @@
-import { userService } from "@/features/users/services/user.service";
 import Link from "next/link";
-import { User } from "@/types";
 import { Button } from "@/components/ui/button";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
 import { deleteUserAction } from "@/features/users/actions/deleteUserAction";
 import { resetPasswordAction } from "@/features/users/actions/resetPasswordAction";
 import { ResetPasswordButton } from "@/features/users/components/ResetPasswordButton";
 
 export const dynamic = "force-dynamic";
 
+type ProfileRow = {
+  id: string;
+  email?: string | null;
+  full_name?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  role?: string | null;
+  status?: string | null;
+  department_id?: string | null;
+  departments?:
+    | { name?: string | null; code?: string | null }
+    | Array<{ name?: string | null; code?: string | null }>
+    | null;
+  created_at?: string | null;
+};
+
+type DisplayUser = {
+  id: string;
+  email: string;
+  full_name: string;
+  department: string;
+  role: string;
+  status: string;
+};
+
+function getDepartmentLabel(profile: Partial<ProfileRow>) {
+  const department = Array.isArray(profile.departments)
+    ? profile.departments[0]
+    : profile.departments;
+
+  if (department?.name && department?.code) return `${department.name} (${department.code})`;
+  if (department?.name) return department.name;
+  if (department?.code) return department.code;
+  return "ไม่ระบุแผนก";
+}
+
 export default async function UsersPage() {
-  let mergedUsers: any[] = [];
+  let mergedUsers: DisplayUser[] = [];
+  let loadWarning: string | null = null;
   
   try {
     const adminSupabase = createAdminClient();
@@ -20,12 +56,15 @@ export default async function UsersPage() {
     if (authError) throw authError;
     
     // Fetch profiles from public.profiles
-    const { data: profiles, error: profileError } = await adminSupabase.from('profiles').select('*').order('created_at', { ascending: false });
+    const { data: profiles, error: profileError } = await adminSupabase
+      .from('profiles')
+      .select('*, departments:department_id(name, code)')
+      .order('created_at', { ascending: false });
     if (profileError) throw profileError;
     
     // Merge data based on id
-    mergedUsers = authData.users.map((u: any) => {
-      const p = profiles?.find((prof: any) => prof.id === u.id) || {};
+    mergedUsers = authData.users.map((u) => {
+      const p: Partial<ProfileRow> = (profiles as ProfileRow[] | null)?.find((prof) => prof.id === u.id) || {};
       
       // Determine the best name to show
       let name = "ไม่มีชื่อ";
@@ -35,8 +74,9 @@ export default async function UsersPage() {
       
       return {
         id: u.id,
-        email: u.email,
+        email: u.email || "ไม่พบอีเมล",
         full_name: name,
+        department: getDepartmentLabel(p),
         role: p.role || 'User',
         status: p.status || 'ACTIVE'
       };
@@ -44,8 +84,8 @@ export default async function UsersPage() {
     
     // Sort merged users to roughly match profile creation date order
     mergedUsers.sort((a, b) => {
-      const profileA = profiles?.find((prof: any) => prof.id === a.id);
-      const profileB = profiles?.find((prof: any) => prof.id === b.id);
+      const profileA = (profiles as ProfileRow[] | null)?.find((prof) => prof.id === a.id);
+      const profileB = (profiles as ProfileRow[] | null)?.find((prof) => prof.id === b.id);
       const dateA = profileA?.created_at ? new Date(profileA.created_at).getTime() : 0;
       const dateB = profileB?.created_at ? new Date(profileB.created_at).getTime() : 0;
       return dateB - dateA;
@@ -53,6 +93,36 @@ export default async function UsersPage() {
     
   } catch (error) {
     console.error("Error fetching users:", error);
+    loadWarning = "ไม่สามารถดึงรายชื่อจาก Supabase Auth ได้ ระบบจะแสดงข้อมูลจากตารางโปรไฟล์แทน กรุณาตรวจสอบ SUPABASE_SERVICE_ROLE_KEY บน Vercel";
+
+    try {
+      const supabase = await createClient();
+      const { data: profiles, error: profileError } = await supabase
+        .from("profiles")
+        .select("*, departments:department_id(name, code)")
+        .order("created_at", { ascending: false });
+
+      if (profileError) throw profileError;
+
+      mergedUsers = ((profiles || []) as ProfileRow[]).map((profile) => {
+        const fullName =
+          profile.full_name ||
+          [profile.first_name, profile.last_name].filter(Boolean).join(" ").trim() ||
+          "ไม่มีชื่อ";
+
+        return {
+          id: profile.id,
+          email: profile.email || "ไม่พบอีเมลในโปรไฟล์",
+          full_name: fullName,
+          department: getDepartmentLabel(profile),
+          role: profile.role || "User",
+          status: profile.status || "ACTIVE",
+        };
+      });
+    } catch (fallbackError) {
+      console.error("Error fetching profile fallback:", fallbackError);
+      loadWarning = "ไม่สามารถดึงรายชื่อผู้ใช้งานได้ กรุณาตรวจสอบสิทธิ์ RLS และค่า Supabase บน Vercel";
+    }
   }
 
   return (
@@ -63,12 +133,18 @@ export default async function UsersPage() {
           <Button>เพิ่มผู้ใช้งาน</Button>
         </Link>
       </div>
+      {loadWarning && (
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {loadWarning}
+        </div>
+      )}
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อ-นามสกุล</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">อีเมล</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">แผนก</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">บทบาท</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สถานะ</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
@@ -79,6 +155,7 @@ export default async function UsersPage() {
               <tr key={user.id}>
                 <td className="px-6 py-4 whitespace-nowrap">{user.full_name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{user.department}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{user.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

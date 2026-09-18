@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const KnowledgeArticleSchema = z.object({
   id: z.string().uuid().optional(),
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "กรุณากรอกหัวข้อ"),
   question: z.string().optional(),
-  answer: z.string().min(1, "Answer is required"),
-  categoryId: z.string().uuid(),
+  answer: z.string().min(1, "กรุณากรอกคำตอบ"),
+  categoryId: z.string().uuid("กรุณาเลือกหมวดหมู่"),
   departmentId: z.string().uuid(),
   source: z.string().optional(),
   isPublish: z.boolean().default(false),
@@ -15,10 +15,10 @@ export const KnowledgeArticleSchema = z.object({
 });
 
 export const CreateArticleSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "กรุณากรอกหัวข้อ"),
   question: z.string().optional(),
-  answer: z.string().min(1, "Answer is required"),
-  categoryId: z.string().uuid(),
+  answer: z.string().min(1, "กรุณากรอกคำตอบ"),
+  categoryId: z.string().uuid("กรุณาเลือกหมวดหมู่"),
   departmentId: z.string().uuid(),
   source: z.string().optional(),
   isPublish: z.boolean(),

@@ -16,6 +16,7 @@ export default function DepartmentDetailPage() {
   const { code } = useParams()
   const router = useRouter()
   const [department, setDepartment] = useState<Department | null>(null)
+  const [userCount, setUserCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function DepartmentDetailPage() {
       try {
         const data = await departmentService.getDepartment(code as string)
         setDepartment(data)
+        const count = await departmentService.getDepartmentUserCount(data.id)
+        setUserCount(count)
       } catch {
         toast.error('ไม่พบข้อมูลแผนก')
         router.push('/admin/departments')
@@ -121,7 +124,7 @@ export default function DepartmentDetailPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-slate-500">บุคลากรในแผนก</p>
-              <h4 className="text-2xl font-bold text-slate-900">0</h4>
+              <h4 className="text-2xl font-bold text-slate-900">{userCount}</h4>
             </div>
           </CardContent>
         </Card>
